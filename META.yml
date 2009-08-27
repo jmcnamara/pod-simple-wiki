@@ -1,0 +1,14 @@
+name:               Pod-Simple-Wiki
+abstract:           A class for creating Pod to Wiki filters.
+version:            0.09
+version_from:       lib/Pod/Simple/Wiki.pm
+installdirs:        site
+requires:
+    Pod::Simple:                   0
+
+distribution_type:  module
+license:            perl
+generated_by:       hand
+resources:
+    CPANForum: http://groups.google.com/group/spreadsheet-writeexcel
+    GoogleGroup: http://groups.google.com/group/spreadsheet-writeexcel

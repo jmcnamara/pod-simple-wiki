@@ -1,0 +1,76 @@
+Revision history for Pod::Simple::Wiki.
+
+0.08 May 24 2008
+
+    + Added Confluence support.
+      Thanks to David Bartle, Andrew Hobbs and
+      Jim Renwick for patches.
+
+
+0.08 August 25 2007
+
+    + Added TiddlyWiki support.
+      Thanks Tim Bunce and Ron Savage.
+
+    + Added better MediaWiki support and tests.
+      Thanks Christopher J. Madsen.
+
+
+0.07 February 1 2007
+
+    + Refactored format handlers into separate modules
+      to make them easier to port and test.
+
+    + Added Pod::Simple::Wiki::Template as an example
+      of how to port a format.
+
+
+0.06 January 30 2007
+
+    + Added MoinMoin support (Michael Matthews)
+
+
+0.05 March 30 2005
+
+    + Added support for TWiki formatting (Sam Tregar)
+
+    + Added support for Wikipedia formatting (Tony Sidaway)
+
+    ! Updated to the new C2 Wiki bullet list format.
+
+    + Added more tests.
+
+
+0.04 August 24 2004
+
+    ! Fixed bug when parsing F<> formats.
+      Reported by Markus Dreyer.
+
+    ! Fixed bug in kwiki h4 directives.
+
+    + Added tests for formats and headings.
+
+    + Added pod2wiki command line utility.
+
+
+0.03 July 21 2003
+
+    + First CPAN release.
+
+    + Added usemod support.
+
+
+0.02 May 21 2003
+
+	+ First release to pod+people mailing list.
+
+    + Added Kwiki support.
+
+
+0.01 May 21 2003
+
+	+ Initial version.
+
+    + c2wiki support.
+
+
