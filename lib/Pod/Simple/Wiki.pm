@@ -466,6 +466,7 @@ The currently supported formats are:
     usemod
     twiki
     tiddlywiki
+    textile
     wikipedia or mediawiki
     moinmoin
     confluence
@@ -501,6 +502,10 @@ This is the format used by TWiki wikis.  See: http://twiki.org/
 =item tiddlywiki
 
 This is the format used by the TiddlyWiki.  See: http://www.tiddlywiki.com/
+
+=item textile
+
+The Textile markup format as used on GitHub. See: http://textile.thresholdstate.com/
 
 =item wikipedia or mediawiki
 

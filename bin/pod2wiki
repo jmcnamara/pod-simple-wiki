@@ -122,6 +122,10 @@ This is the format used by TWiki wikis.  See: http://twiki.org/
 
 This is the format used by the TiddlyWiki.  See: http://www.tiddlywiki.com/
 
+=item textile
+
+The Textile markup format as used on GitHub. See: http://textile.thresholdstate.com/
+
 =item wikipedia or mediawiki
 
 This is the format used by Wikipedia and MediaWiki wikis.  See: http://www.mediawiki.org/
