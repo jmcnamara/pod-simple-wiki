@@ -16,7 +16,7 @@ use Pod::Simple;
 use vars qw(@ISA $VERSION);
 
 @ISA     = qw(Pod::Simple);
-$VERSION = '0.09';
+$VERSION = '0.10';
 
 
 ###############################################################################
@@ -562,7 +562,7 @@ Thanks to Christopher J. Madsen for several MediaWiki additions and tests.
 
 Thanks Tim Bunce for the TiddlyWiki prod and Ron Savage for the port.
 
-Thanks to David Bartle, Andrew Hobbs and Jim Renwick for conlfuence patches.
+Thanks to David Bartle, Andrew Hobbs and Jim Renwick for confluence patches.
 
 
 =head1 DISCLAIMER OF WARRANTY
@@ -570,6 +570,11 @@ Thanks to David Bartle, Andrew Hobbs and Jim Renwick for conlfuence patches.
 Because this software is licensed free of charge, there is no warranty for the software, to the extent permitted by applicable law. Except when otherwise stated in writing the copyright holders and/or other parties provide the software "as is" without warranty of any kind, either expressed or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. The entire risk as to the quality and performance of the software is with you. Should the software prove defective, you assume the cost of all necessary servicing, repair, or correction.
 
 In no event unless required by applicable law or agreed to in writing will any copyright holder, or any other party who may modify and/or redistribute the software as permitted by the above licence, be liable to you for damages, including any general, special, incidental, or consequential damages arising out of the use or inability to use the software (including but not limited to loss of data or data being rendered inaccurate or losses sustained by you or third parties or a failure of the software to operate with any other software), even if such holder or other party has been advised of the possibility of such damages.
+
+
+=head1 LICENSE
+
+Either the Perl Artistic Licence http://dev.perl.org/licenses/artistic.html or the GPL http://www.opensource.org/licenses/gpl-license.php
 
 
 =head1 AUTHOR

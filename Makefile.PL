@@ -10,5 +10,6 @@ WriteMakefile(
     'NEEDS_LINKING' =>  0,
     'PREREQ_PM'     => {Pod::Simple => 0},
     'dist'          => {COMPRESS => 'gzip --best', SUFFIX => 'gz'},
-    'EXE_FILES'      => ['bin/pod2wiki'],
+    'EXE_FILES'     => ['bin/pod2wiki'],
+    'LICENSE'       => 'perl',
 );

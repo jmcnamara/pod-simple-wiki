@@ -1,6 +1,11 @@
 Revision history for Pod::Simple::Wiki.
 
-0.08 May 24 2008
+0.10 Aug 28 2009
+
+     + Added Textile support for github wikis.
+
+
+0.09 May 24 2008
 
     + Added Confluence support.
       Thanks to David Bartle, Andrew Hobbs and

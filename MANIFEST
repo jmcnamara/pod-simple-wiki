@@ -13,6 +13,7 @@ lib/Pod/Simple/Wiki/Tiddlywiki.pm
 lib/Pod/Simple/Wiki/Twiki.pm
 lib/Pod/Simple/Wiki/Usemod.pm
 lib/Pod/Simple/Wiki/Confluence.pm
+lib/Pod/Simple/Wiki/Textile.pm
 
 bin/pod2wiki
 
@@ -52,3 +53,8 @@ t/07_03_tiddlywiki_lists.t
 t/08_01_confluence_format.t
 t/08_02_confluence_head.t
 t/08_03_confluence_lists.t
+
+t/09_01_textile_format.t
+t/09_02_textile_head.t
+t/09_03_textile_lists.t
+
