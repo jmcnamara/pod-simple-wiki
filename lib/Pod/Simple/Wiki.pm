@@ -530,6 +530,7 @@ Any other parameters in C<new> will be passed on to the parent C<Pod::Simple> ob
 
 If you are interested in porting a new wiki format have a look at L<Pod::Simple::Wiki::Template>.
 
+The C<Pod::Simple::Wiki> git repository is: http://github.com/jmcnamara/pod-simple-wiki/
 
 =head1 SEE ALSO
 
@@ -539,14 +540,6 @@ This module also installs a C<pod2wiki> command line utility. See C<pod2wiki --h
 =head1 TODO
 
 =over 4
-
-=item *
-
-Add more code, more tests and a few more users if possible.
-
-=item *
-
-Add other Wiki formats. Send requests or patches.
 
 =item *
 

@@ -222,6 +222,8 @@ The following are some suggested steps in porting the module. For the sake of ex
 
 =head2 Portme Step 1
 
+Fork, clone or download the latest version of C<Pod::Simple::Wiki> from the github repository: http://github.com/jmcnamara/pod-simple-wiki/
+
 Copy the C</lib/Pod/Simple/Wiki/Template.pm> to a new module C</lib/Pod/Simple/Wiki/Portmewiki.pm>.
 
 The module name should have the first letter capitalised and all others lowercase, i.e, the same as returned by C<ucfirst()>.
@@ -282,11 +284,9 @@ Try to maintain the code style of this module. See the source for more informati
 Remove or replace all C<portme> comments.
 
 
-
 =head2 Portme Step 7
 
-Send it to me the tarred directory with libs and tests and I'll release it to CPAN.
-
+Send me a git pull request or the tarred directory with libs and tests and I'll release it to CPAN.
 
 
 =head1 METHODS
