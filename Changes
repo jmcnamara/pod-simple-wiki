@@ -1,5 +1,10 @@
 Revision history for Pod::Simple::Wiki.
 
+0.11 Aug 29 2009
+
+     ! Fix for literal newline in <pre> block in Textile filter.
+
+
 0.10 Aug 28 2009
 
      + Added Textile support for github wikis.
