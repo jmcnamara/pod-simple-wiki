@@ -74,6 +74,10 @@ sub new {
        $self->{_item_indent}    = 0;
        $self->{_debug}          = 0;
 
+    # Set Pod::Simple parser options
+    # - Merge contiguous text        RT#60304
+    $self->merge_text(1);
+
     bless  $self, $class;
     return $self;
 }

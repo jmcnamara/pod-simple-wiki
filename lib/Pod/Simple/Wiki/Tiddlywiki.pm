@@ -111,6 +111,8 @@ sub _handle_text {
         next if $self->{_in_Verbatim};
         next if $self->{_in_C};
         s/([A-Z]+[a-z]+[A-Z]+[a-z]*)/~$1/g;
+        # Escape TiddlyWiki formating sequences RT#60304
+        s[(([-/'_^~@<>])\2+)][{{{$1}}}]g;
     }
 
     # Rejoin the tokens and whitespace.
