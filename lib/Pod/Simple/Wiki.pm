@@ -78,6 +78,9 @@ sub new {
     # - Merge contiguous text        RT#60304
     $self->merge_text(1);
 
+    # - Ignore X<>  (index entries)  RT#60307
+    $self->nix_X_codes(1);
+
     bless  $self, $class;
     return $self;
 }
