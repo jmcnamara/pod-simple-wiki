@@ -1,5 +1,14 @@
 Revision history for Pod::Simple::Wiki.
 
+0.12 Aug 22 2010
+
+     ! Fix for RT#60304: escape TiddlyWiki format sequences.
+       Patch by Olivier 'dolmen' Mengué.
+
+     ! Fix for RT#60307: ignore X<>. 
+       Patch by Olivier 'dolmen' Mengué.
+
+
 0.11 Aug 29 2009
 
      ! Fix for literal newline in <pre> block in Textile filter.
