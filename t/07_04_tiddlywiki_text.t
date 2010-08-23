@@ -13,7 +13,7 @@
 use strict;
 
 use Pod::Simple::Wiki;
-use Test::More tests => 13;
+use Test::More tests => 24;
 
 my $style = 'tiddlywiki';
 
@@ -29,6 +29,18 @@ my @tests  = (
 		    qw( - / ' _ ^ > ~ @ ) ),
                 [ "=pod\n\nxxE<gt>E<gt>xxE<lt>E<lt>xxE<sol>E<sol>xx"    => qq(xx{{{>>}}}xx{{{<<}}}xx{{{//}}}xx\n\n),     'Escape doubles E<gt> E<lt> E<sol>'     ],
                 [ "=pod\n\nxx/E<sol>/xx"    => qq(xx{{{///}}}xx\n\n),     'Escape /E<sol>/'     ],
+		# WikiWords RT#60650
+		[ "=pod\n\nWikiWord" => qq(~WikiWord\n\n), 'Escape WikiWord' ],
+		[ "=pod\n\nWikiWWW" => qq(~WikiWWW\n\n), 'Escape -WikiWWW' ],
+		[ "=pod\n\nxxWikiWord" => qq(xxWikiWord\n\n), 'No Escape xxWikiWord' ],
+		[ "=pod\n\n01WikiWord" => qq(01WikiWord\n\n), 'No Escape 01WikiWord' ],
+		[ "=pod\n\nxx_WikiWord" => qq(xx_~WikiWord\n\n), 'Escape xx_WikiWord' ],
+		[ "=pod\n\nWikiWord2" => qq(~WikiWord2\n\n), 'Escape WikiWord2' ],
+		[ "=pod\n\nWiki2Word" => qq(~Wiki2Word\n\n), 'Escape Wiki2Word' ],
+		[ "=pod\n\nWiki-Word" => qq(~Wiki-Word\n\n), 'Escape Wiki-Word' ],
+		[ "=pod\n\n-WikiWord" => qq(-~WikiWord\n\n), 'Escape -WikiWord' ],
+		[ "=pod\n\n-Wiki-Word" => qq(-~Wiki-Word\n\n), 'Escape -Wiki-Word' ],
+		[ "=pod\n\n-Wiki-Word+Wiki-Word" => qq(-~Wiki-Word+~Wiki-Word\n\n), 'Escape -Wiki-Word+Wiki-Word' ],
 );
 
 

@@ -110,7 +110,8 @@ sub _handle_text {
         # Escape WikiWords with ~, unless in varbatim section.
         next if $self->{_in_Verbatim};
         next if $self->{_in_C};
-        s/([A-Z]+[a-z]+[A-Z]+[a-z]*)/~$1/g;
+	# Escape WikiWords  RT#60650
+        s/(?<![A-Za-z0-9])([A-Z]+[-_0-9a-z]+[A-Z]+[-_0-9a-zA-Z]*)/~$1/g;
         # Escape TiddlyWiki formating sequences RT#60304
         s[(([-/'_^~@<>])\2+)][{{{$1}}}]g;
     }
