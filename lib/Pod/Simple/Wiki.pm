@@ -569,6 +569,8 @@ Thanks to Christopher J. Madsen for several MediaWiki additions and tests.
 
 Thanks Tim Bunce for the TiddlyWiki prod and Ron Savage for the port.
 
+Thanks to Olivier 'dolmen' Mengué for various TiddlyWiki patches.
+
 Thanks to David Bartle, Andrew Hobbs and Jim Renwick for confluence patches.
 
 

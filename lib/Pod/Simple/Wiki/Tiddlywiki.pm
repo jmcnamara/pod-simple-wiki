@@ -216,6 +216,8 @@ John McNamara jmcnamara@cpan.org
 
 Ron Savage, ron@savage.net.au
 
+Olivier 'dolmen' Mengué
+
 =head1 COPYRIGHT
 
 © MMIII-MMVIII, John McNamara.

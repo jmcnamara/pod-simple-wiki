@@ -2,7 +2,7 @@ Revision history for Pod::Simple::Wiki.
 
 0.13 Aug 24 2010
 
-     ! Fix for RT#60650: Escape TiddlyWiki words with '-'
+     ! Fix for RT#60650: Escape TiddlyWiki words.
        Patch by Olivier 'dolmen' Mengue'.
 
 
