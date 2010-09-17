@@ -20,14 +20,16 @@ my $style    = 'wiki';
 my $whine    = 1;
 my $errata   = 1;
 my $complain = 0;
+my $encoding = '';
 
 GetOptions(
-            'help|?'    => \$help,
-            'man'       => \$man,
-            'style=s'   => \$style,
-            'whine!'    => \$whine,
-            'errata!'   => \$errata,
-            'complain!' => \$complain,
+            'help|?'     => \$help,
+            'man'        => \$man,
+            'style=s'    => \$style,
+            'whine!'     => \$whine,
+            'errata!'    => \$errata,
+            'complain!'  => \$complain,
+            'encoding=s' => \$encoding,
           ) or pod2usage(2);
 
 pod2usage(1) if $help;
@@ -54,6 +56,10 @@ if (defined $ARGV[1]) {
     $parser->output_fh(*OUT);
 }
 
+# Encode the output filehandle if required.
+if ($] >= 5.008 && $encoding) {
+    binmode $parser->{output_fh}, $encoding;
+}
 
 $parser->parse_file(*IN);
 
@@ -122,6 +128,10 @@ This is the format used by TWiki wikis.  See: http://twiki.org/
 
 This is the format used by the TiddlyWiki.  See: http://www.tiddlywiki.com/
 
+=item textile
+
+The Textile markup format as used on GitHub. See: http://textile.thresholdstate.com/
+
 =item wikipedia or mediawiki
 
 This is the format used by Wikipedia and MediaWiki wikis.  See: http://www.mediawiki.org/
@@ -136,6 +146,14 @@ This is the format used by Confluence.  See: http://www.atlassian.com/software/c
 
 =back
 
+
+=item B<--encoding>
+
+Specify the encoding for the output filehandle:
+
+    --encoding=":utf8"
+
+Refer to C<binmode> in L<perlfunc> for more details. This option is only available in Perl 5.8 and later.
 
 =item B<--noerrata or -noe>
 
@@ -166,7 +184,7 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-© MMIII-MMVIII, John McNamara.
+© MMIII-MMX John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.
 
