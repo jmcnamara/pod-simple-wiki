@@ -141,6 +141,56 @@ sub _start_Para {
 }
 
 
+###############################################################################
+#
+# _start_L()
+#
+# Handle the start of a link element.
+#
+sub _start_L {
+
+    my $self       = shift;
+    my $link_attrs = shift;
+
+    $self->{_link_attrs} = $link_attrs;
+
+    # Ouput start of Confluence link and flush the _wiki_text buffer.
+    $self->_output( '[' );
+}
+
+
+###############################################################################
+#
+# _end_L()
+#
+# Handle the end of a link element.
+#
+sub _end_L {
+
+    my $self         = shift;
+    my $link_attrs   = $self->{_link_attrs};
+    my $link_target  = $link_attrs->{to};
+    my $link_section = $link_attrs->{section};
+
+    # Handle links that are parsed as Pod links.
+    if ( defined $link_section ) {
+        $link_target = $link_section;
+
+        # Remove quotes around link name.
+        $self->{_wiki_text} =~ s/^"//;
+        $self->{_wiki_text} =~ s/"$//;
+    }
+
+    # Only write [text|link] if text and link are different.
+    if ( $self->{_wiki_text} ne $link_target ) {
+        $self->_append( "|$link_target]" );
+    }
+    else {
+        $self->_append( "]" );
+    }
+}
+
+
 1;
 
 

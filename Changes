@@ -1,5 +1,10 @@
 Revision history for Pod::Simple::Wiki.
 
+0.15 MMMM DD 2011
+
+     + Added rudimentary link support to Confluence.
+
+
 0.14 Sept 17 2010
 
      ! Fix for RT#37480. Allow the output encoding to be specified

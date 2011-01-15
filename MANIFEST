@@ -53,6 +53,7 @@ t/07_04_tiddlywiki_text.t
 t/08_01_confluence_format.t
 t/08_02_confluence_head.t
 t/08_03_confluence_lists.t
+t/08_04_confluence_links.t
 
 t/09_01_textile_format.t
 t/09_02_textile_head.t
