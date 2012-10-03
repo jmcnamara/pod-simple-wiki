@@ -51,7 +51,7 @@ my $tags = {
 sub new {
 
     my $class                   = shift;
-    my $self                    = Pod::Simple::Wiki->new('wiki', @_);
+    my $self                    = Pod::Simple::Wiki->new('Wiki', @_);
        $self->{_tags}           = $tags;
 
     bless  $self, $class;
@@ -211,14 +211,14 @@ This module isn't used directly. Instead it is called via C<Pod::Simple::Wiki>:
     use Pod::Simple::Wiki;
 
 
-    my $parser = Pod::Simple::Wiki->new('confluence');
+    my $parser = Pod::Simple::Wiki->new('Confluence');
 
     ...
 
 
 Convert Pod to a Confluence wiki format using the installed C<pod2wiki> utility:
 
-    pod2wiki --style confluence file.pod > file.wiki
+    pod2wiki --style Confluence file.pod > file.wiki
 
 
 =head1 DESCRIPTION

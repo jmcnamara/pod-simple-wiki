@@ -16,7 +16,7 @@ use Pod::Usage;
 
 my $man      = 0;
 my $help     = 0;
-my $style    = 'wiki';
+my $style    = 'Wiki';
 my $whine    = 1;
 my $errata   = 1;
 my $complain = 0;
@@ -75,7 +75,7 @@ pod2wiki - A utility to convert Pod documents to Wiki format.
 pod2wiki [--style --noerrata --help --man] podfile [outfile]
 
     Options:
-        --style      wiki style (defaults to wiki. See --help)
+        --style      wiki style (defaults to Wiki. See --help)
         --noerrata   don't generate a "POD ERRORS" section
         --help       brief help message
         --man        full documentation
@@ -104,43 +104,43 @@ The converted output file in wiki format. Defaults to stdout if not specified.
 
 =item B<--style or -s>
 
-Sets the wiki style of the output. If no C<style> is specified the program defaults to C<wiki>. The available options are:
+Sets the wiki style of the output. If no C<style> is specified the program defaults to C<Wiki>. The available options are:
 
 =over 4
 
-=item wiki
+=item Wiki
 
 This is the original Wiki format as used on Ward Cunningham's Portland repository of Patterns. See http://c2.com/cgi/wiki
 
-=item kwiki
+=item Kwiki
 
 This is the format as used by Brian Ingerson's Kwiki: http://www.kwiki.org
 
-=item usemod
+=item UseMod
 
-This is the format used by the Usemod wikis. See: http://www.usemod.com/cgi-bin/wiki.pl
+This is the format used by the UseMod wikis. See: http://www.usemod.com/cgi-bin/wiki.pl
 
-=item twiki
+=item TWiki
 
 This is the format used by TWiki wikis.  See: http://twiki.org/
 
-=item tiddlywiki
+=item TiddlyWiki
 
 This is the format used by the TiddlyWiki.  See: http://www.tiddlywiki.com/
 
-=item textile
+=item Textile
 
 The Textile markup format as used on GitHub. See: http://textile.thresholdstate.com/
 
-=item wikipedia or mediawiki
+=item MediaWiki or Wikipedia
 
 This is the format used by Wikipedia and MediaWiki wikis.  See: http://www.mediawiki.org/
 
-=item moinmoin
+=item MoinMoin
 
 This is the format used by MoinMoin wikis.  See: http://moinmo.in/MoinMoinWiki
 
-=item confluence
+=item Confluence
 
 This is the format used by Confluence.  See: http://www.atlassian.com/software/confluence/
 

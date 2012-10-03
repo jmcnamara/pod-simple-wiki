@@ -1,8 +1,8 @@
-package Pod::Simple::Wiki::Mediawiki;
+package Pod::Simple::Wiki::MediaWiki;
 
 ###############################################################################
 #
-# Pod::Simple::Wiki::Mediawiki - A class for creating Pod to Mediawiki filters.
+# Pod::Simple::Wiki::MediaWiki - A class for creating Pod to MediaWiki filters.
 #
 #
 # Copyright 2003-2008, John McNamara, jmcnamara@cpan.org
@@ -53,12 +53,12 @@ my $tags = {
 sub new {
 
     my $class                   = shift;
-    my $self                    = Pod::Simple::Wiki->new('wiki', @_);
+    my $self                    = Pod::Simple::Wiki->new('Wiki', @_);
        $self->{_tags}           = $tags;
 
     bless  $self, $class;
 
-    $self->accept_targets('mediawiki');
+    $self->accept_targets('MediaWiki');
     $self->nbsp_for_S(1);
 
     return $self;
@@ -249,7 +249,7 @@ __END__
 
 =head1 NAME
 
-Pod::Simple::Wiki::Mediawiki - A class for creating Pod to Mediawiki wiki filters.
+Pod::Simple::Wiki::MediaWiki - A class for creating Pod to MediaWiki wiki filters.
 
 =head1 SYNOPSIS
 
@@ -261,30 +261,30 @@ This module isn't used directly. Instead it is called via C<Pod::Simple::Wiki>:
     use Pod::Simple::Wiki;
 
 
-    my $parser = Pod::Simple::Wiki->new('mediawiki');
+    my $parser = Pod::Simple::Wiki->new('MediaWiki');
 
     ...
 
 
 Convert Pod to a Mediawiki wiki format using the installed C<pod2wiki> utility:
 
-    pod2wiki --style mediawiki file.pod > file.wiki
+    pod2wiki --style MediaWiki file.pod > file.wiki
 
 
 =head1 DESCRIPTION
 
-The C<Pod::Simple::Wiki::Mediawiki> module is used for converting Pod text to Wiki text.
+The C<Pod::Simple::Wiki::MediaWiki> module is used for converting Pod text to Wiki text.
 
 Pod (Plain Old Documentation) is a simple markup language used for writing Perl documentation.
 
-For an introduction to Mediawiki see: http://www.mediawiki.org/wiki/MediaWiki
+For an introduction to MediaWiki see: http://www.mediawiki.org/wiki/MediaWiki
 
 This module isn't generally invoked directly. Instead it is called via C<Pod::Simple::Wiki>. See the L<Pod::Simple::Wiki> and L<pod2wiki> documentation for more information.
 
 
 =head1 METHODS
 
-Pod::Simple::Wiki::Mediawiki inherits all of the methods of C<Pod::Simple> and C<Pod::Simple::Wiki>. See L<Pod::Simple> and L<Pod::Simple::Wiki> for more details.
+Pod::Simple::Wiki::MediaWiki inherits all of the methods of C<Pod::Simple> and C<Pod::Simple::Wiki>. See L<Pod::Simple> and L<Pod::Simple::Wiki> for more details.
 
 
 =head1 SEE ALSO

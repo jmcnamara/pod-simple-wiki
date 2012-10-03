@@ -15,7 +15,7 @@ use strict;
 use Pod::Simple::Wiki;
 use Test::More tests => 4;
 
-my $style = 'kwiki';
+my $style = 'Kwiki';
 
 # Output the tests for visual testing in the wiki.
 # END{output_tests()};
