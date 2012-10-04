@@ -495,12 +495,7 @@ Bullet item 2.0
 #
 #
 * Bullet item 1.0
-\## Number item 1.1
-::; Foo
-:::Definition item 1.2
-::; Bar
-:::Definition item 2.2
-\## Number item 2.1
+\## Number item 1.1::; Foo<p>Definition item 1.2::; Bar<p>Definition item 2.2## Number item 2.1
 * Bullet item 2.0
 
 ###############################################################################

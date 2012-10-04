@@ -59,12 +59,18 @@ sub new {
 
     my $module                  = "Pod::Simple::Wiki::" . $format;
 
+    my $opts                    = shift || {};
+
+    if (exists $opts->{tags}) {
+        $tags = { %$tags, %{ $opts->{tags} } }
+    }
+
     # Try to load a sub-module unless the format type is 'Wiki' in which
     # case we use this, the parent, module. It's a design pattern, bitches!
     if ($format ne 'Wiki') {
         eval "require $module";
         die "Module $module not implemented for wiki format $format\n" if $@;
-        return $module->new(@_);
+        return $module->new($opts, @_);
     }
 
     my $self                    = Pod::Simple->new(@_);
