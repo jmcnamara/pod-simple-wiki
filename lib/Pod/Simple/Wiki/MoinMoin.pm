@@ -1,8 +1,8 @@
-package Pod::Simple::Wiki::Moinmoin;
+package Pod::Simple::Wiki::MoinMoin;
 
 ###############################################################################
 #
-# Pod::Simple::Wiki::Moinmoin - A class for creating Pod to Moinmoin filters.
+# Pod::Simple::Wiki::MoinMoin - A class for creating Pod to MoinMoin filters.
 #
 #
 # Copyright 2003-2008, John McNamara, jmcnamara@cpan.org
@@ -53,7 +53,7 @@ my $tags = {
 sub new {
 
     my $class                   = shift;
-    my $self                    = Pod::Simple::Wiki->new('wiki', @_);
+    my $self                    = Pod::Simple::Wiki->new('Wiki', @_);
        $self->{_tags}           = $tags;
 
     bless  $self, $class;
@@ -163,7 +163,7 @@ __END__
 
 =head1 NAME
 
-Pod::Simple::Wiki::Moinmoin - A class for creating Pod to Moinmoin wiki filters.
+Pod::Simple::Wiki::MoinMoin - A class for creating Pod to MoinMoin wiki filters.
 
 =head1 SYNOPSIS
 
@@ -175,30 +175,30 @@ This module isn't used directly. Instead it is called via C<Pod::Simple::Wiki>:
     use Pod::Simple::Wiki;
 
 
-    my $parser = Pod::Simple::Wiki->new('moinmoin');
+    my $parser = Pod::Simple::Wiki->new('MoinMoin');
 
     ...
 
 
-Convert Pod to a Moinmoin wiki format using the installed C<pod2wiki> utility:
+Convert Pod to a MoinMoin wiki format using the installed C<pod2wiki> utility:
 
-    pod2wiki --style moinmoin file.pod > file.wiki
+    pod2wiki --style MoinMoin file.pod > file.wiki
 
 
 =head1 DESCRIPTION
 
-The C<Pod::Simple::Wiki::Moinmoin> module is used for converting Pod text to Wiki text.
+The C<Pod::Simple::Wiki::MoinMoin> module is used for converting Pod text to Wiki text.
 
 Pod (Plain Old Documentation) is a simple markup language used for writing Perl documentation.
 
-For an introduction to Moinmoin see: http://moinmoin.wikiwikiweb.de/
+For an introduction to MoinMoin see: http://moinmoin.wikiwikiweb.de/
 
 This module isn't generally invoked directly. Instead it is called via C<Pod::Simple::Wiki>. See the L<Pod::Simple::Wiki> and L<pod2wiki> documentation for more information.
 
 
 =head1 METHODS
 
-Pod::Simple::Wiki::Moinmoin inherits all of the methods of C<Pod::Simple> and C<Pod::Simple::Wiki>. See L<Pod::Simple> and L<Pod::Simple::Wiki> for more details.
+Pod::Simple::Wiki::MoinMoin inherits all of the methods of C<Pod::Simple> and C<Pod::Simple::Wiki>. See L<Pod::Simple> and L<Pod::Simple::Wiki> for more details.
 
 
 =head1 SEE ALSO

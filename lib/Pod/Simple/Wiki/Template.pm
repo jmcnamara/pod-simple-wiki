@@ -69,7 +69,7 @@ my $tags = {
 sub new {
 
     my $class                   = shift;
-    my $self                    = Pod::Simple::Wiki->new('wiki', @_);
+    my $self                    = Pod::Simple::Wiki->new('Wiki', @_);
        $self->{_tags}           = $tags;
 
     bless  $self, $class;
@@ -186,14 +186,14 @@ This module isn't used directly. Instead it is called via C<Pod::Simple::Wiki>:
     use Pod::Simple::Wiki;
 
 
-    my $parser = Pod::Simple::Wiki->new('template');
+    my $parser = Pod::Simple::Wiki->new('Template');
 
     ...
 
 
 Convert Pod to a Template wiki format using the installed C<pod2wiki> utility:
 
-    pod2wiki --style template file.pod > file.wiki
+    pod2wiki --style Template file.pod > file.wiki
 
 
 =head1 DESCRIPTION
@@ -244,7 +244,7 @@ The module should now work and can now be called as follows:
 
     my $parser = Pod::Simple::Wiki->new('portmewiki');
 
-The default output format, in this configuration is Kwiki.
+The default output format, in this configuration is KWiki.
 
 
 =head2 Portme Step 4

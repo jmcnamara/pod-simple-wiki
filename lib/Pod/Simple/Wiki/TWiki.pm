@@ -1,8 +1,8 @@
-package Pod::Simple::Wiki::Twiki;
+package Pod::Simple::Wiki::TWiki;
 
 ###############################################################################
 #
-# Pod::Simple::Wiki::Twiki - A class for creating Pod to Twiki filters.
+# Pod::Simple::Wiki::TWiki - A class for creating Pod to TWiki filters.
 #
 #
 # Copyright 2003-2008, John McNamara, jmcnamara@cpan.org
@@ -53,7 +53,7 @@ my $tags = {
 sub new {
 
     my $class                   = shift;
-    my $self                    = Pod::Simple::Wiki->new('wiki', @_);
+    my $self                    = Pod::Simple::Wiki->new('Wiki', @_);
        $self->{_tags}           = $tags;
 
     bless  $self, $class;
@@ -145,7 +145,7 @@ __END__
 
 =head1 NAME
 
-Pod::Simple::Wiki::Twiki - A class for creating Pod to Twiki wiki filters.
+Pod::Simple::Wiki::TWiki - A class for creating Pod to TWiki wiki filters.
 
 =head1 SYNOPSIS
 
@@ -157,30 +157,30 @@ This module isn't used directly. Instead it is called via C<Pod::Simple::Wiki>:
     use Pod::Simple::Wiki;
 
 
-    my $parser = Pod::Simple::Wiki->new('twiki');
+    my $parser = Pod::Simple::Wiki->new('TWiki');
 
     ...
 
 
-Convert Pod to a Twiki wiki format using the installed C<pod2wiki> utility:
+Convert Pod to a TWiki wiki format using the installed C<pod2wiki> utility:
 
-    pod2wiki --style twiki file.pod > file.wiki
+    pod2wiki --style TWiki file.pod > file.wiki
 
 
 =head1 DESCRIPTION
 
-The C<Pod::Simple::Wiki::Twiki> module is used for converting Pod text to Wiki text.
+The C<Pod::Simple::Wiki::TWiki> module is used for converting Pod text to Wiki text.
 
 Pod (Plain Old Documentation) is a simple markup language used for writing Perl documentation.
 
-For an introduction to Twiki see: http://twiki.org
+For an introduction to TWiki see: http://twiki.org
 
 This module isn't generally invoked directly. Instead it is called via C<Pod::Simple::Wiki>. See the L<Pod::Simple::Wiki> and L<pod2wiki> documentation for more information.
 
 
 =head1 METHODS
 
-Pod::Simple::Wiki::Twiki inherits all of the methods of C<Pod::Simple> and C<Pod::Simple::Wiki>. See L<Pod::Simple> and L<Pod::Simple::Wiki> for more details.
+Pod::Simple::Wiki::TWiki inherits all of the methods of C<Pod::Simple> and C<Pod::Simple::Wiki>. See L<Pod::Simple> and L<Pod::Simple::Wiki> for more details.
 
 
 =head1 SEE ALSO

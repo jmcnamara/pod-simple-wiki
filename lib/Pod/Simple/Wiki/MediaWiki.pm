@@ -1,8 +1,8 @@
-package Pod::Simple::Wiki::Mediawiki;
+package Pod::Simple::Wiki::MediaWiki;
 
 ###############################################################################
 #
-# Pod::Simple::Wiki::Mediawiki - A class for creating Pod to Mediawiki filters.
+# Pod::Simple::Wiki::MediaWiki - A class for creating Pod to MediaWiki filters.
 #
 #
 # Copyright 2003-2008, John McNamara, jmcnamara@cpan.org
@@ -43,6 +43,12 @@ my $tags = {
             '</h4>'  => "=====\n",
            };
 
+my $default_opts = {
+    tags            => $tags,
+    sentence_case   => 0,
+    cpanify_links   => 0,
+    munge_name      => 0,
+};
 
 ###############################################################################
 #
@@ -53,12 +59,23 @@ my $tags = {
 sub new {
 
     my $class                   = shift;
-    my $self                    = Pod::Simple::Wiki->new('wiki', @_);
-       $self->{_tags}           = $tags;
+
+    my $opts                    = shift || {};
+
+    die "Options were not passed as a hashref\n"
+        unless ref $opts eq 'HASH';
+
+    $opts = { %$default_opts, %$opts };
+
+    my $self                    = Pod::Simple::Wiki->new('Wiki', @_);
+       $self->{_tags}           = $opts->{tags};
+       $self->{_cpanify_links}  = $opts->{cpanify_links};
+       $self->{_sentence_case}  = $opts->{sentence_case};
+       $self->{_munge_name}     = $opts->{munge_name};
 
     bless  $self, $class;
 
-    $self->accept_targets('mediawiki');
+    $self->accept_targets('MediaWiki');
     $self->nbsp_for_S(1);
 
     return $self;
@@ -161,9 +178,17 @@ sub _format_link {
   return "[[#$attr->{section}|$text]]" unless defined $attr->{to};
 
   # Handle a link to a specific section in another page:
-  return "[[$attr->{to}#$attr->{section}|$text]]" if defined $attr->{section};
+  if (defined $attr->{section}) {
+    return $self->{_cpanify_links}
+      ? "[http://search.cpan.org/perldoc?$attr->{to}#$attr->{section} $text]"
+      : "[[$attr->{to}#$attr->{section}|$text]]"
+  }
 
-  return "[[$attr->{to}]]" if $attr->{'content-implicit'};
+  if ($attr->{'content-implicit'}) {
+    return $self->{_cpanify_links}
+      ? "[http://search.cpan.org/perldoc?$attr->{to} $attr->{to}]"
+      : "[[$attr->{to}]]"
+  }
 
   return "[[$attr->{to}|$text]]";
 } # end _format_link
@@ -181,6 +206,12 @@ sub _handle_text {
     my $self = shift;
     my $text = $_[0];
 
+    if ( $self->{_sentence_case} ) {
+        if ( $self->{_in_head1} ) {
+            $text = ucfirst( lc( $text ) );
+        }
+    }
+
     unless ($self->{_in_Data}) {
       # Escape colons in definition lists:
       if ($self->{_in_item_text}) {
@@ -195,6 +226,8 @@ sub _handle_text {
       $text =~ s/\xA0/&nbsp;/g; # Convert non-breaking spaces to entities
 
       $text =~ s/''/'&#39;/g;   # It's not a formatting code
+
+      $text =~ s/\xA9/&copy;/g; # Convert copyright symbols to entities
     } # end unless in data paragraph
 
     $self->_append($text);
@@ -231,6 +264,29 @@ sub _start_Para {
     if ($self->{_in_over_text}) {
       $self->{_indent_text} = "\n" . (':' x $indent_level);
     }
+
+    if ( $self->{_in_over_bullet} || $self->{_in_over_number} ) {
+        chomp( ${ $self->{output_string} } );
+        $self->{_indent_text} = "<p>";
+    }
+}
+
+sub _end_Para {
+    my $self = shift;
+
+    # Only add a newline if the paragraph isn't part of a text
+    if ( $self->{_in_over_text} ) {
+        # Do nothing in this format.
+    }
+    elsif ( $self->{_in_over_bullet} || $self->{_in_over_number} ) {
+        $self->_output( "</p>\n" );
+    }
+    else {
+        $self->_output( "\n" );
+    }
+
+    $self->_output("\n")
+        unless ( $self->{_in_over_bullet} || $self->{_in_over_number} )
 }
 
 ######################################################################
@@ -241,6 +297,18 @@ sub _start_Para {
 
 sub _end_Data { $_[0]->_output("\n\n") }
 
+sub parse_string_document {
+    my $self = shift;
+
+    $self = $self->SUPER::parse_string_document(@_);
+
+    ${ $self->{output_string} } =~ s/^==\s*NAME\s*==\n(?:[\w:]+)(?: - (.*))*/$1||''/iesg
+        if $self->{_munge_name};
+
+    return $self;
+}
+
+
 1;
 
 
@@ -249,7 +317,7 @@ __END__
 
 =head1 NAME
 
-Pod::Simple::Wiki::Mediawiki - A class for creating Pod to Mediawiki wiki filters.
+Pod::Simple::Wiki::MediaWiki - A class for creating Pod to MediaWiki wiki filters.
 
 =head1 SYNOPSIS
 
@@ -261,30 +329,30 @@ This module isn't used directly. Instead it is called via C<Pod::Simple::Wiki>:
     use Pod::Simple::Wiki;
 
 
-    my $parser = Pod::Simple::Wiki->new('mediawiki');
+    my $parser = Pod::Simple::Wiki->new('MediaWiki');
 
     ...
 
 
 Convert Pod to a Mediawiki wiki format using the installed C<pod2wiki> utility:
 
-    pod2wiki --style mediawiki file.pod > file.wiki
+    pod2wiki --style MediaWiki file.pod > file.wiki
 
 
 =head1 DESCRIPTION
 
-The C<Pod::Simple::Wiki::Mediawiki> module is used for converting Pod text to Wiki text.
+The C<Pod::Simple::Wiki::MediaWiki> module is used for converting Pod text to Wiki text.
 
 Pod (Plain Old Documentation) is a simple markup language used for writing Perl documentation.
 
-For an introduction to Mediawiki see: http://www.mediawiki.org/wiki/MediaWiki
+For an introduction to MediaWiki see: http://www.mediawiki.org/wiki/MediaWiki
 
 This module isn't generally invoked directly. Instead it is called via C<Pod::Simple::Wiki>. See the L<Pod::Simple::Wiki> and L<pod2wiki> documentation for more information.
 
 
 =head1 METHODS
 
-Pod::Simple::Wiki::Mediawiki inherits all of the methods of C<Pod::Simple> and C<Pod::Simple::Wiki>. See L<Pod::Simple> and L<Pod::Simple::Wiki> for more details.
+Pod::Simple::Wiki::MediaWiki inherits all of the methods of C<Pod::Simple> and C<Pod::Simple::Wiki>. See L<Pod::Simple> and L<Pod::Simple::Wiki> for more details.
 
 
 =head1 SEE ALSO

@@ -5,12 +5,12 @@ README
 
 lib/Pod/Simple/Wiki.pm
 lib/Pod/Simple/Wiki/Kwiki.pm
-lib/Pod/Simple/Wiki/Mediawiki.pm
-lib/Pod/Simple/Wiki/Moinmoin.pm
+lib/Pod/Simple/Wiki/MediaWiki.pm
+lib/Pod/Simple/Wiki/MoinMoin.pm
 lib/Pod/Simple/Wiki/Template.pm
-lib/Pod/Simple/Wiki/Tiddlywiki.pm
-lib/Pod/Simple/Wiki/Twiki.pm
-lib/Pod/Simple/Wiki/Usemod.pm
+lib/Pod/Simple/Wiki/TiddlyWiki.pm
+lib/Pod/Simple/Wiki/TWiki.pm
+lib/Pod/Simple/Wiki/UseMod.pm
 lib/Pod/Simple/Wiki/Confluence.pm
 lib/Pod/Simple/Wiki/Textile.pm
 

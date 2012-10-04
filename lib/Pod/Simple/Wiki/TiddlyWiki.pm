@@ -1,11 +1,11 @@
-package Pod::Simple::Wiki::Usemod;
+package Pod::Simple::Wiki::TiddlyWiki;
 
 ###############################################################################
 #
-# Pod::Simple::Wiki::Usemod - A class for creating Pod to Usemod filters.
+# Pod::Simple::Wiki::TiddlyWiki - A class for creating Pod to TiddlyWiki filters.
 #
 #
-# Copyright 2003-2008, John McNamara, jmcnamara@cpan.org
+# Copyright 2007, Ron Savage, ron@savage.net.au
 #
 # Documentation after __END__
 #
@@ -18,31 +18,29 @@ use vars qw(@ISA $VERSION);
 @ISA     = qw(Pod::Simple::Wiki);
 $VERSION = '0.08';
 
-
 ###############################################################################
 #
 # The tag to wiki mappings.
 #
 my $tags = {
-            '<b>'    => '<b>',
-            '</b>'   => '</b>',
-            '<i>'    => '<i>',
-            '</i>'   => '</i>',
-            '<tt>'   => '<tt>',
-            '</tt>'  => '</tt>',
-            '<pre>'  => "\n<pre>\n",
-            '</pre>' => "\n</pre>\n\n",
+            '<b>'    => q(''),
+            '</b>'   => q(''),
+            '<i>'    => '//',
+            '</i>'   => '//',
+            '<tt>'   => '{{{',
+            '</tt>'  => '}}}',
+            '<pre>'  => "{{{\n",
+            '</pre>' => "\n}}}\n\n",
 
-            '<h1>'   => "\n= ",
-            '</h1>'  => " =\n\n",
-            '<h2>'   => "\n== ",
-            '</h2>'  => " ==\n\n",
-            '<h3>'   => "\n=== ",
-            '</h3>'  => " ===\n",
-            '<h4>'   => "\n==== ",
-            '</h4>'  => " ====\n\n",
+            '<h1>'   => '!',
+            '</h1>'  => "\n",
+            '<h2>'   => '!!',
+            '</h2>'  => "\n",
+            '<h3>'   => '!!!',
+            '</h3>'  => "\n",
+            '<h4>'   => '!!!!',
+            '</h4>'  => "\n",
            };
-
 
 ###############################################################################
 #
@@ -53,13 +51,14 @@ my $tags = {
 sub new {
 
     my $class                   = shift;
-    my $self                    = Pod::Simple::Wiki->new('wiki', @_);
+    my $self                    = Pod::Simple::Wiki->new('Wiki', @_);
        $self->{_tags}           = $tags;
 
     bless  $self, $class;
     return $self;
 }
 
+# How Pod "=over" blocks are converted to TiddlyWiki wiki lists.
 
 ###############################################################################
 #
@@ -75,16 +74,17 @@ sub _indent_item {
     my $indent_level = $self->{_item_indent};
 
     if    ($item_type eq 'bullet') {
-         $self->_append('*' x $indent_level);
+         $self->_append('*' x $indent_level . ' ');
     }
     elsif ($item_type eq 'number') {
-         $self->_append('#' x $indent_level);
+         $self->_append('#' x $indent_level . ' ');
     }
+    # TiddlyWiki doesn't have the equivalent of a <dl> list so we use a
+    # bullet list as a workaround.
     elsif ($item_type eq 'text') {
-         $self->_append(';' x $indent_level);
+         $self->_append('*' x $indent_level . ' ');
     }
 }
-
 
 ###############################################################################
 #
@@ -101,12 +101,24 @@ sub _handle_text {
     # Split the text into tokens but maintain the whitespace
     my @tokens = split /(\s+)/, $text;
 
-    # Escape any tokens here.
+
+
+    # Escape any tokens here, if necessary.
+    for (@tokens) {
+        next unless /\S/;  # Ignore the whitespace
+
+        # Escape WikiWords with ~, unless in varbatim section.
+        next if $self->{_in_Verbatim};
+        next if $self->{_in_C};
+	# Escape WikiWords  RT#60650
+        s/(?<![A-Za-z0-9])([A-Z]+[-_0-9a-z]+[A-Z]+[-_0-9a-zA-Z]*)/~$1/g;
+        # Escape TiddlyWiki formating sequences RT#60304
+        s[(([-/'_^~@<>])\2+)][{{{$1}}}]g;
+    }
 
     # Rejoin the tokens and whitespace.
     $self->{_wiki_text} .= join '', @tokens;
 }
-
 
 ###############################################################################
 #
@@ -117,7 +129,10 @@ sub _handle_text {
 # Text     lists
 # Block    lists
 #
-sub _end_item_text     {$_[0]->_output(':')}
+
+# TiddlyWiki doesn't have the equivalent of a <dl> list so we use a
+# bullet list as a workaround.
+sub _end_item_text     {$_[0]->_output(' ')}
 
 
 ###############################################################################
@@ -132,7 +147,7 @@ sub _start_Para {
     my $indent_level = $self->{_item_indent};
 
     if ($self->{_in_over_block}) {
-        $self->_append(":" x $indent_level);
+        # Do something here if necessary
     }
 }
 
@@ -145,7 +160,7 @@ __END__
 
 =head1 NAME
 
-Pod::Simple::Wiki::Usemod - A class for creating Pod to Usemod wiki filters.
+Pod::Simple::Wiki::TiddlyWiki - A class for creating Pod to TiddlyWiki wiki filters.
 
 =head1 SYNOPSIS
 
@@ -157,51 +172,51 @@ This module isn't used directly. Instead it is called via C<Pod::Simple::Wiki>:
     use Pod::Simple::Wiki;
 
 
-    my $parser = Pod::Simple::Wiki->new('usemod');
+    my $parser = Pod::Simple::Wiki->new('TiddlyWiki');
 
     ...
 
 
-Convert Pod to a Usemod wiki format using the installed C<pod2wiki> utility:
+Convert Pod to a TiddlyWiki wiki format using the installed C<pod2wiki> utility:
 
-    pod2wiki --style usemod file.pod > file.wiki
+    pod2wiki --style TiddlyWiki file.pod > file.wiki
 
 
 =head1 DESCRIPTION
 
-The C<Pod::Simple::Wiki::Usemod> module is used for converting Pod text to Wiki text.
+The C<Pod::Simple::Wiki::TiddlyWiki> module is used for converting Pod text to Wiki text.
 
 Pod (Plain Old Documentation) is a simple markup language used for writing Perl documentation.
 
-For an introduction to Usemod see: http://www.usemod.com/cgi-bin/wiki.pl
+For an introduction to TiddlyWiki see: http://tiddlywiki.com/
 
 This module isn't generally invoked directly. Instead it is called via C<Pod::Simple::Wiki>. See the L<Pod::Simple::Wiki> and L<pod2wiki> documentation for more information.
 
-
 =head1 METHODS
 
-Pod::Simple::Wiki::Usemod inherits all of the methods of C<Pod::Simple> and C<Pod::Simple::Wiki>. See L<Pod::Simple> and L<Pod::Simple::Wiki> for more details.
+Pod::Simple::Wiki::TiddlyWiki inherits all of the methods of C<Pod::Simple> and C<Pod::Simple::Wiki>. See L<Pod::Simple> and L<Pod::Simple::Wiki> for more details.
 
+=head1 TiddlyWiki Specific information
 
 =head1 SEE ALSO
 
 This module also installs a C<pod2wiki> command line utility. See C<pod2wiki --help> for details.
 
-
 =head1 ACKNOWLEDGEMENTS
 
 Submit a bugfix or test and your name will go here.
-
 
 =head1 DISCLAIMER OF WARRANTY
 
 Please refer to the DISCLAIMER OF WARRANTY in L<Pod::Simple::Wiki>.
 
-
 =head1 AUTHORS
 
 John McNamara jmcnamara@cpan.org
 
+Ron Savage, ron@savage.net.au
+
+Olivier 'dolmen' Mengué
 
 =head1 COPYRIGHT
 

@@ -53,18 +53,24 @@ my $tags = {
 sub new {
 
     my $class                   = shift;
-    my $format                  = lc shift || 'wiki';
-       $format                  = 'mediawiki' if $format eq 'wikipedia';
-       $format                  = 'moinmoin'  if $format eq 'moin';
+    my $format                  = shift || 'Wiki';
+       $format                  = 'Mediawiki' if $format =~ m/^wikipedia$/i;
+       $format                  = 'MoinMoin'  if $format =~ m/^moin$/i;
 
-    my $module                  = "Pod::Simple::Wiki::" . ucfirst $format;
+    my $module                  = "Pod::Simple::Wiki::" . $format;
 
-    # Try to load a sub-module unless the format type is 'wiki' in which
+    my $opts                    = shift || {};
+
+    if (exists $opts->{tags}) {
+        $tags = { %$tags, %{ $opts->{tags} } }
+    }
+
+    # Try to load a sub-module unless the format type is 'Wiki' in which
     # case we use this, the parent, module. It's a design pattern, bitches!
-    if ($format ne 'wiki') {
+    if ($format ne 'Wiki') {
         eval "require $module";
         die "Module $module not implemented for wiki format $format\n" if $@;
-        return $module->new(@_);
+        return $module->new($opts, @_);
     }
 
     my $self                    = Pod::Simple->new(@_);
@@ -414,7 +420,7 @@ This document refers to version 0.09 of Pod::Simple::Wiki, released May 24 2008.
 
 =head1 SYNOPSIS
 
-To create a simple filter to convert from Pod to a wiki format:
+To create a simple filter to convert from Pod to a Wiki format:
 
     #!/usr/bin/perl -w
 
@@ -422,7 +428,7 @@ To create a simple filter to convert from Pod to a wiki format:
     use Pod::Simple::Wiki;
 
 
-    my $parser = Pod::Simple::Wiki->new('kwiki');
+    my $parser = Pod::Simple::Wiki->new('Kwiki');
 
     if (defined $ARGV[0]) {
         open IN, $ARGV[0]  or die "Couldn't open $ARGV[0]: $!\n";
@@ -444,7 +450,7 @@ To create a simple filter to convert from Pod to a wiki format:
 
 To convert Pod to a wiki format using the installed C<pod2wiki> utility:
 
-    pod2wiki --style mediawiki file.pod > file.wiki
+    pod2wiki --style MediaWiki file.pod > file.wiki
 
 
 =head1 DESCRIPTION
@@ -453,7 +459,7 @@ The C<Pod::Simple::Wiki> module is used for converting Pod text to Wiki text.
 
 Pod (Plain Old Documentation) is a simple markup language used for writing Perl documentation.
 
-A Wiki is a user extensible web site. It uses very simple mark-up that is converted to Html. For an introduction to Wikis see: http://en.wikipedia.org/wiki/Wiki
+A Wiki is a user extensible web site. It uses very simple mark-up that is converted to HTML. For an introduction to Wikis see: http://en.wikipedia.org/wiki/Wiki
 
 
 =head1 METHODS
@@ -462,21 +468,21 @@ A Wiki is a user extensible web site. It uses very simple mark-up that is conver
 
 The C<new> method is used to create a new C<Pod::Simple::Wiki> object. It is also used to set the output Wiki format.
 
-  my $parser1 = Pod::Simple::Wiki->new('wiki');
-  my $parser2 = Pod::Simple::Wiki->new('mediawiki');
-  my $parser3 = Pod::Simple::Wiki->new(); # Defaults to 'wiki'
+  my $parser1 = Pod::Simple::Wiki->new('Wiki');
+  my $parser2 = Pod::Simple::Wiki->new('MediaWiki');
+  my $parser3 = Pod::Simple::Wiki->new(); # Defaults to 'Wiki'
 
 The currently supported formats are:
 
-    wiki
-    kwiki
-    usemod
-    twiki
-    tiddlywiki
-    textile
-    wikipedia or mediawiki
-    moinmoin
-    confluence
+    Wiki
+    Kwiki
+    UseMod
+    TWiki
+    TiddlyWiki
+    Textile
+    MediaWiki or MediaWiki
+    MoinMoin
+    Confluence
 
 
 =head2 Other methods
@@ -490,45 +496,45 @@ The following wiki formats are supported by C<Pod::Simple::Wiki>:
 
 =over 4
 
-=item wiki
+=item Wiki
 
 This is the original Wiki format as used on Ward Cunningham's Portland repository of Patterns. See http://c2.com/cgi/wiki
 
-=item kwiki
+=item Kwiki
 
 This is the format as used by Brian Ingerson's Kwiki: http://www.kwiki.org
 
-=item usemod
+=item UseMod
 
-This is the format used by the Usemod wikis. See: http://www.usemod.com/cgi-bin/wiki.pl
+This is the format used by the UseMod wikis. See: http://www.usemod.com/cgi-bin/wiki.pl
 
-=item twiki
+=item TWiki
 
 This is the format used by TWiki wikis.  See: http://twiki.org/
 
-=item tiddlywiki
+=item TiddlyWiki
 
 This is the format used by the TiddlyWiki.  See: http://www.tiddlywiki.com/
 
-=item textile
+=item Textile
 
 The Textile markup format as used on GitHub. See: http://textile.thresholdstate.com/
 
-=item wikipedia or mediawiki
+=item MediaWiki or Wikipedia
 
 This is the format used by Wikipedia and MediaWiki wikis.  See: http://www.mediawiki.org/
 
-=item moinmoin
+=item MoinMoin
 
 This is the format used by MoinMoin wikis.  See: http://moinmo.in/MoinMoinWiki
 
-=item confluence
+=item Confluence
 
 This is the format used by Confluence.  See: http://www.atlassian.com/software/confluence/
 
 =back
 
-If no format is specified the parser defaults to C<wiki>.
+If no format is specified the parser defaults to C<Wiki>.
 
 Any other parameters in C<new> will be passed on to the parent C<Pod::Simple> object. See L<Pod::Simple> for more details.
 
@@ -561,7 +567,7 @@ Thanks to Sean M. Burke for C<Pod::Simple>. It may not be simple but sub-classin
 
 Thanks to Sam Tregar for TWiki support.
 
-Thanks Tony Sidaway for Wikipedia/MediaWiki support.
+Thanks Tony Sidaway for MediaWiki/Wikipedia support.
 
 Thanks to Michael Matthews for MoinMoin support.
 
