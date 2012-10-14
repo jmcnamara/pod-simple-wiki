@@ -46,15 +46,49 @@ my $tags = {
 
 ###############################################################################
 #
+# The default module options
+#
+my $default_opts = {
+    transformer_lists       => 0,
+    link_prefix             => 0,
+    sentence_case_headers   => 0,
+    remove_name_section     => 0,
+};
+
+
+###############################################################################
+#
 # new()
 #
 # Simple constructor inheriting from Pod::Simple::Wiki.
 #
 sub new {
 
-    my $class                   = shift;
-    my $self                    = Pod::Simple::Wiki->new('wiki', @_);
-       $self->{_tags}           = $tags;
+    my $class                           = shift;
+    my $opts                            = {};
+
+    if (ref $_[-1] eq 'HASH') {
+       $opts = pop @_;
+
+       # Merge custom tags with the default tags, if passed.
+       $opts->{tags}                    = { %$tags, %{ exists $opts->{custom_tags}
+                                                           ? delete $opts->{custom_tags}
+                                                           : {}
+                                                     }
+                                          };
+    }
+    else {
+       $opts->{tags}                    = $tags;
+    }
+
+    $opts                               = { %$default_opts, %$opts };
+
+    my $self                            = Pod::Simple::Wiki->new('wiki', @_);
+       $self->{_tags}                   = $opts->{tags};
+       $self->{_transformer_lists}      = $opts->{transformer_lists};
+       $self->{_link_prefix}            = $opts->{link_prefix};
+       $self->{_sentence_case_headers}  = $opts->{sentence_case_headers};
+       $self->{_remove_name_section}    = $opts->{remove_name_section};
 
     bless  $self, $class;
 
@@ -161,9 +195,17 @@ sub _format_link {
   return "[[#$attr->{section}|$text]]" unless defined $attr->{to};
 
   # Handle a link to a specific section in another page:
-  return "[[$attr->{to}#$attr->{section}|$text]]" if defined $attr->{section};
+  if (defined $attr->{section}) {
+    return $self->{_link_prefix}
+      ? "[$self->{_link_prefix}$attr->{to}#$attr->{section} $text]"
+      : "[[$attr->{to}#$attr->{section}|$text]]"
+  }
 
-  return "[[$attr->{to}]]" if $attr->{'content-implicit'};
+  if ($attr->{'content-implicit'}) {
+    return $self->{_link_prefix}
+      ? "[$self->{_link_prefix}$attr->{to} $attr->{to}]"
+      : "[[$attr->{to}]]"
+  }
 
   return "[[$attr->{to}|$text]]";
 } # end _format_link
@@ -181,6 +223,12 @@ sub _handle_text {
     my $self = shift;
     my $text = $_[0];
 
+    if ($self->{_sentence_case_headers}) {
+        if ($self->{_in_head1}) {
+            $text = ucfirst( lc( $text ) );
+        }
+    }
+
     unless ($self->{_in_Data}) {
       # Escape colons in definition lists:
       if ($self->{_in_item_text}) {
@@ -195,6 +243,8 @@ sub _handle_text {
       $text =~ s/\xA0/&nbsp;/g; # Convert non-breaking spaces to entities
 
       $text =~ s/''/'&#39;/g;   # It's not a formatting code
+
+      $text =~ s/\xA9/&copy;/g; # Convert copyright symbols to entities
     } # end unless in data paragraph
 
     $self->_append($text);
@@ -231,7 +281,47 @@ sub _start_Para {
     if ($self->{_in_over_text}) {
       $self->{_indent_text} = "\n" . (':' x $indent_level);
     }
+
+    if ($self->{_transformer_lists}) {
+        if ( $self->{_in_over_bullet} || $self->{_in_over_number} ) {
+            if ($self->{output_string}) {
+                chomp( ${ $self->{output_string} } );
+            }
+            $self->{_indent_text} = "<p>";
+        }
+    }
 }
+
+
+###############################################################################
+#
+# _end_Para()
+#
+# Special handling for paragraphs that are part of an "over_text" block.
+#
+sub _end_Para {
+    my $self = shift;
+
+    # Only add a newline if the paragraph isn't part of a text
+    if ( $self->{_in_over_text} ) {
+        # Do nothing in this format.
+    }
+    elsif ($self->{_transformer_lists}
+       && ($self->{_in_over_bullet} || $self->{_in_over_number})) {
+
+        $self->_output( "</p>\n" );
+    }
+    else {
+        $self->_output( "\n" );
+    }
+
+    unless ($self->{_transformer_lists}
+        && ($self->{_in_over_bullet} || $self->{_in_over_number})) {
+
+        $self->_output("\n")
+    }
+}
+
 
 ######################################################################
 #
@@ -241,11 +331,34 @@ sub _start_Para {
 
 sub _end_Data { $_[0]->_output("\n\n") }
 
+
+###############################################################################
+#
+# parse_string_document()
+#
+# Optional overriding of Pod::Simple method to remove the "NAME" section
+#
+sub parse_string_document {
+    my $self = shift;
+
+    $self = $self->SUPER::parse_string_document(@_);
+
+    if ($self->{_remove_name_section}) {
+        no warnings 'uninitialized';
+        ${ $self->{output_string} } =~ s/^==\s*NAME\s*==\n(?:[\w:]+)(?: - (.*))*/$1||''/iesg
+    }
+
+    return $self;
+}
+
 1;
 
 
 __END__
 
+=pod
+
+=encoding utf8
 
 =head1 NAME
 
@@ -261,7 +374,7 @@ This module isn't used directly. Instead it is called via C<Pod::Simple::Wiki>:
     use Pod::Simple::Wiki;
 
 
-    my $parser = Pod::Simple::Wiki->new('mediawiki');
+    my $parser = Pod::Simple::Wiki->new('mediawiki', \%opts);
 
     ...
 
@@ -287,6 +400,80 @@ This module isn't generally invoked directly. Instead it is called via C<Pod::Si
 Pod::Simple::Wiki::Mediawiki inherits all of the methods of C<Pod::Simple> and C<Pod::Simple::Wiki>. See L<Pod::Simple> and L<Pod::Simple::Wiki> for more details.
 
 
+=head2 new
+
+The following options are supported by the C<Pod::Simple::Wiki::Mediawiki> constructor:
+
+=over 4
+
+=item B<custom_tags>
+
+This option accepts a hashref containing the HTML tag to MediaWiki mappings.
+
+For example, if your MediaWiki installation has the L<SyntaxHighlight GeSHi|http://www.mediawiki.org/wiki/Extension:SyntaxHighlight_GeSHi> extension installed, you could pass the following custom tags to enable your verbatim paragraphs to be syntax highlighted:
+
+    {
+        custom_tags => {
+            '<pre>'     => "<syntaxhighlight lang=\"perl\">\n",
+            '</pre>'    => "\n</syntaxhighlight>\n",
+        }
+    }
+
+Any custom tags you define will override the classes' default tags as defined in the C<$tags> variable.
+
+Defaults to "{}".
+
+=item B<transformer_lists>
+
+If enabled, modify the item list output to better support the L<Pod::Elemental::Transformer::List> style of lists (as used by many L<Dist::Zilla> based distros via L<Pod::Weaver>).
+
+For example, the output of the following list definition:
+
+    =for :list
+    * Point one
+    This is pointy
+    * Point two
+    That hurts
+
+will be transformed into:
+
+    * Point one<p>This is pointy</p>
+    * Point two<p>That hurts</p>
+
+This will be rendered as a bulleted with list headings that have correctly indented paragraph blocks immediately beneath.
+
+Defaults to 0.
+
+=item B<link_prefix>
+
+If set, all links without any extra qualifier text are prefixed with the given URL.  A useful URL to set this option to is: C<http://search.cpan.org/perldoc?>, which will enable the links to be correctly resolved to the external links when used within your internal MediaWiki site.
+
+Defaults to 0.
+
+=item B<sentence_case_headers>
+
+This option will modify any C<=head1> header by lower-casing it and then upper-casing the first character.
+
+For example, this header:
+
+    =head1 DESCRIPTION
+
+becomes:
+
+    =head1 Description
+
+This option is inspired from L<http://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style#Article_titles> in the Wikipedia "Manual of Style".
+
+Defaults to 0.
+
+=item B<remove_name_section>
+
+If enabled, modify the resultant wiki output text to remove the "NAME" (or "Name") section, but first parse out the embedded abstract text and place that at the top of the wiki page, as a brief introduction.
+
+Defaults to 0.
+
+=back
+
 =head1 SEE ALSO
 
 This module also installs a C<pod2wiki> command line utility. See C<pod2wiki --help> for details.
@@ -311,6 +498,6 @@ Christopher J. Madsen perl@cjmweb.net
 
 =head1 COPYRIGHT
 
-© MMIII-MMVIII, John McNamara.
+Â© MMIII-MMVIII, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.
