@@ -5,7 +5,7 @@ package Pod::Simple::Wiki::Twiki;
 # Pod::Simple::Wiki::Twiki - A class for creating Pod to Twiki filters.
 #
 #
-# Copyright 2003-2008, John McNamara, jmcnamara@cpan.org
+# Copyright 2003-2012, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -18,7 +18,7 @@ use vars qw(@ISA $VERSION);
 
 
 @ISA     = qw(Pod::Simple::Wiki);
-$VERSION = '0.14';
+$VERSION = '0.15';
 
 
 ###############################################################################
@@ -176,7 +176,7 @@ The C<Pod::Simple::Wiki::Twiki> module is used for converting Pod text to Wiki t
 
 Pod (Plain Old Documentation) is a simple markup language used for writing Perl documentation.
 
-For an introduction to Twiki see: http://twiki.org
+For an introduction to Twiki see: L<http://twiki.org>
 
 This module isn't generally invoked directly. Instead it is called via C<Pod::Simple::Wiki>. See the L<Pod::Simple::Wiki> and L<pod2wiki> documentation for more information.
 
@@ -208,6 +208,6 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-MMIII-MMVIII, John McNamara.
+MMIII-MMXII, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.

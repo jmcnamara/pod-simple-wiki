@@ -1,6 +1,9 @@
 Revision history for Pod::Simple::Wiki.
 
-0.15 MMMM DD 2011
+0.15 Oct 14 2012
+
+     + Added options for beautifying MediaWiki output.
+       Changes provided by Peter Hallam. 
 
      + Added rudimentary link support to Confluence.
 

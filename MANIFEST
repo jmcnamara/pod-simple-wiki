@@ -41,6 +41,11 @@ t/05_01_mediawiki_format.t
 t/05_02_mediawiki_head.t
 t/05_03_mediawiki_lists.t
 t/05_04_mediawiki_links.t
+t/05_05_mediawiki_custom_tags.t
+t/05_06_mediawiki_transformer_lists.t
+t/05_07_mediawiki_link_prefix.t
+t/05_08_mediawiki_sentence_case_headers.t
+t/05_09_mediawiki_remove_name_section.t
 
 t/06_01_moinmoin_format.t
 t/06_03_moinmoin_lists.t

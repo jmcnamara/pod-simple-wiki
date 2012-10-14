@@ -5,7 +5,7 @@ package Pod::Simple::Wiki;
 # Pod::Simple::Wiki - A class for creating Pod to Wiki filters.
 #
 #
-# Copyright 2003-2008, John McNamara, jmcnamara@cpan.org
+# Copyright 2003-2012, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -19,7 +19,7 @@ use Pod::Simple;
 use vars qw(@ISA $VERSION);
 
 @ISA     = qw(Pod::Simple);
-$VERSION = '0.14';
+$VERSION = '0.15';
 
 
 ###############################################################################
@@ -414,41 +414,48 @@ sub _end_Para {
 __END__
 
 
+=pod
+
+=encoding utf8
+
 =head1 NAME
 
 Pod::Simple::Wiki - A class for creating Pod to Wiki filters.
 
 =head1 VERSION
 
-This document refers to version 0.09 of Pod::Simple::Wiki, released May 24 2008.
+This document refers to version 0.15 of Pod::Simple::Wiki, released October 14 2012.
 
 
 =head1 SYNOPSIS
 
 To create a simple filter to convert from Pod to a wiki format:
 
-    #!/usr/bin/perl -w
+    #!/usr/bin/perl
 
     use strict;
+    use warnings;
     use Pod::Simple::Wiki;
 
 
     my $parser = Pod::Simple::Wiki->new('kwiki');
 
-    if (defined $ARGV[0]) {
-        open IN, $ARGV[0]  or die "Couldn't open $ARGV[0]: $!\n";
-    } else {
+    if ( defined $ARGV[0] ) {
+        open IN, $ARGV[0] or die "Couldn't open $ARGV[0]: $!\n";
+    }
+    else {
         *IN = *STDIN;
     }
 
-    if (defined $ARGV[1]) {
+    if ( defined $ARGV[1] ) {
         open OUT, ">$ARGV[1]" or die "Couldn't open $ARGV[1]: $!\n";
-    } else {
+    }
+    else {
         *OUT = *STDOUT;
     }
 
-    $parser->output_fh(*OUT);
-    $parser->parse_file(*IN);
+    $parser->output_fh( *OUT );
+    $parser->parse_file( *IN );
 
     __END__
 
@@ -464,7 +471,7 @@ The C<Pod::Simple::Wiki> module is used for converting Pod text to Wiki text.
 
 Pod (Plain Old Documentation) is a simple markup language used for writing Perl documentation.
 
-A Wiki is a user extensible web site. It uses very simple mark-up that is converted to Html. For an introduction to Wikis see: http://en.wikipedia.org/wiki/Wiki
+A Wiki is a user extensible web site. It uses very simple mark-up that is converted to Html. For an introduction to Wikis see: L<http://en.wikipedia.org/wiki/Wiki>
 
 
 =head1 METHODS
@@ -473,9 +480,9 @@ A Wiki is a user extensible web site. It uses very simple mark-up that is conver
 
 The C<new> method is used to create a new C<Pod::Simple::Wiki> object. It is also used to set the output Wiki format.
 
-  my $parser1 = Pod::Simple::Wiki->new('wiki');
-  my $parser2 = Pod::Simple::Wiki->new('mediawiki');
-  my $parser3 = Pod::Simple::Wiki->new(); # Defaults to 'wiki'
+    my $parser1 = Pod::Simple::Wiki->new( 'wiki' );
+    my $parser2 = Pod::Simple::Wiki->new( 'mediawiki' );
+    my $parser3 = Pod::Simple::Wiki->new(); # Defaults to 'wiki'
 
 The currently supported formats are:
 
@@ -503,39 +510,39 @@ The following wiki formats are supported by C<Pod::Simple::Wiki>:
 
 =item wiki
 
-This is the original Wiki format as used on Ward Cunningham's Portland repository of Patterns. See http://c2.com/cgi/wiki
+This is the original Wiki format as used on Ward Cunningham's Portland repository of Patterns. See L<http://c2.com/cgi/wiki>.
 
 =item kwiki
 
-This is the format as used by Brian Ingerson's Kwiki: http://www.kwiki.org
+This is the format as used by Brian Ingerson's Kwiki: L<http://www.kwiki.org>.
 
 =item usemod
 
-This is the format used by the Usemod wikis. See: http://www.usemod.com/cgi-bin/wiki.pl
+This is the format used by the Usemod wikis. See: L<http://www.usemod.com/cgi-bin/wiki.pl>.
 
 =item twiki
 
-This is the format used by TWiki wikis.  See: http://twiki.org/
+This is the format used by TWiki wikis.  See: L<http://twiki.org/>.
 
 =item tiddlywiki
 
-This is the format used by the TiddlyWiki.  See: http://www.tiddlywiki.com/
+This is the format used by the TiddlyWiki.  See: L<http://www.tiddlywiki.com/>.
 
 =item textile
 
-The Textile markup format as used on GitHub. See: http://textile.thresholdstate.com/
+The Textile markup format as used on GitHub. See: L<http://textile.thresholdstate.com/>.
 
 =item wikipedia or mediawiki
 
-This is the format used by Wikipedia and MediaWiki wikis.  See: http://www.mediawiki.org/
+This is the format used by Wikipedia and MediaWiki wikis.  See: L<http://www.mediawiki.org/>.
 
 =item moinmoin
 
-This is the format used by MoinMoin wikis.  See: http://moinmo.in/MoinMoinWiki
+This is the format used by MoinMoin wikis.  See: L<http://moinmo.in/MoinMoinWiki>.
 
 =item confluence
 
-This is the format used by Confluence.  See: http://www.atlassian.com/software/confluence/
+This is the format used by Confluence.  See: L<http://www.atlassian.com/software/confluence/>.
 
 =back
 
@@ -548,7 +555,7 @@ Any other parameters in C<new> will be passed on to the parent C<Pod::Simple> ob
 
 If you are interested in porting a new wiki format have a look at L<Pod::Simple::Wiki::Template>.
 
-The C<Pod::Simple::Wiki> git repository is: http://github.com/jmcnamara/pod-simple-wiki/
+The C<Pod::Simple::Wiki> git repository is: L<http://github.com/jmcnamara/pod-simple-wiki/>.
 
 =head1 SEE ALSO
 
@@ -580,10 +587,11 @@ Thanks to Christopher J. Madsen for several MediaWiki additions and tests.
 
 Thanks Tim Bunce for the TiddlyWiki prod and Ron Savage for the port.
 
-Thanks to Olivier 'dolmen' Mengué for various TiddlyWiki patches.
+Thanks to Olivier 'dolmen' MenguE<eacute> for various TiddlyWiki patches.
 
 Thanks to David Bartle, Andrew Hobbs and Jim Renwick for confluence patches.
 
+Thanks to Peter Hallam for MediaWiki enhancements.
 
 =head1 DISCLAIMER OF WARRANTY
 
@@ -594,7 +602,7 @@ In no event unless required by applicable law or agreed to in writing will any c
 
 =head1 LICENSE
 
-Either the Perl Artistic Licence http://dev.perl.org/licenses/artistic.html or the GPL http://www.opensource.org/licenses/gpl-license.php
+Either the Perl Artistic Licence L<http://dev.perl.org/licenses/artistic.html> or the GPL L<http://www.opensource.org/licenses/gpl-license.php>.
 
 
 =head1 AUTHOR
@@ -604,6 +612,6 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-MMIII-MMX, John McNamara.
+MMIII-MMVII, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.

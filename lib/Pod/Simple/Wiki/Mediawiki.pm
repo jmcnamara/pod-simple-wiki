@@ -2,10 +2,10 @@ package Pod::Simple::Wiki::Mediawiki;
 
 ###############################################################################
 #
-# Pod::Simple::Wiki::Mediawiki - A class for creating Pod to Mediawiki filters.
+# Pod::Simple::Wiki::Mediawiki - A class for creating Pod to MediaWiki filters.
 #
 #
-# Copyright 2003-2008, John McNamara, jmcnamara@cpan.org
+# Copyright 2003-2012, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -18,7 +18,7 @@ use vars qw(@ISA $VERSION);
 
 
 @ISA     = qw(Pod::Simple::Wiki);
-$VERSION = '0.14';
+$VERSION = '0.15';
 
 
 ###############################################################################
@@ -153,25 +153,27 @@ sub _indent_item {
 # Functions to deal with links.
 
 sub _start_L {
+
     my ( $self, $attr ) = @_;
 
-    unless ( $self->_skip_headings ) {
+    if ( !$self->_skip_headings ) {
         $self->_append( '' );    # In case we have _indent_text pending
-        $self->_output
-          ;    # Flush the text buffer, so it will contain only the link text
+        # Flush the text buffer, so it will contain only the link text
+        $self->_output;
         $self->{_link_attr} = $attr;    # Save for later
-    }    # end unless skipping formatting because in heading
-}    # end _start_L
+    }
+}
 
 sub _end_L {
+
     my $self = $_[0];
 
     my $attr = delete $self->{_link_attr};
 
     if ( $attr and my $method = $self->can( '_format_link' ) ) {
         $self->{_wiki_text} = $method->( $self, $self->{_wiki_text}, $attr );
-    }    # end if link to be processed
-}    # end _end_L
+    }
+}
 
 
 ###############################################################################
@@ -179,6 +181,7 @@ sub _end_L {
 # _format_link
 
 sub _format_link {
+
     my ( $self, $text, $attr ) = @_;
 
     if ( $attr->{type} eq 'url' ) {
@@ -186,7 +189,7 @@ sub _format_link {
 
         return $link if $attr->{'content-implicit'};
         return "[$link $text]";
-    }    # end if hyperlink to URL
+    }
 
     # Manpage:
     if ( $attr->{type} eq 'man' ) {
@@ -194,7 +197,7 @@ sub _format_link {
         # FIXME link to http://www.linuxmanpages.com?
         return "<tt>$text</tt>" if $attr->{'content-implicit'};
         return "$text (<tt>$attr->{to}</tt>)";
-    }    # end if manpage
+    }
 
     die "Unknown link type $attr->{type}" unless $attr->{type} eq 'pod';
 
@@ -215,7 +218,7 @@ sub _format_link {
     }
 
     return "[[$attr->{to}|$text]]";
-}    # end _format_link
+}
 
 
 ###############################################################################
@@ -236,7 +239,7 @@ sub _handle_text {
         }
     }
 
-    unless ( $self->{_in_Data} ) {
+    if ( !$self->{_in_Data} ) {
 
         # Escape colons in definition lists:
         if ( $self->{_in_item_text} ) {
@@ -253,7 +256,7 @@ sub _handle_text {
         $text =~ s/''/'&#39;/g;      # It's not a formatting code
 
         $text =~ s/\xA9/&copy;/g;    # Convert copyright symbols to entities
-    }    # end unless in data paragraph
+    }
 
     $self->_append( $text );
 }
@@ -308,6 +311,7 @@ sub _start_Para {
 # Special handling for paragraphs that are part of an "over_text" block.
 #
 sub _end_Para {
+
     my $self = shift;
 
     # Only add a newline if the paragraph isn't part of a text
@@ -325,8 +329,8 @@ sub _end_Para {
         $self->_output( "\n" );
     }
 
-    unless ( $self->{_transformer_lists}
-        && ( $self->{_in_over_bullet} || $self->{_in_over_number} ) )
+    if ( !$self->{_transformer_lists}
+        || ( !$self->{_in_over_bullet} && !$self->{_in_over_number} ) )
     {
 
         $self->_output( "\n" );
@@ -350,6 +354,7 @@ sub _end_Data { $_[0]->_output( "\n\n" ) }
 # Optional overriding of Pod::Simple method to remove the "NAME" section
 #
 sub parse_string_document {
+
     my $self = shift;
 
     $self = $self->SUPER::parse_string_document( @_ );
@@ -493,7 +498,8 @@ This module also installs a C<pod2wiki> command line utility. See C<pod2wiki --h
 
 =head1 ACKNOWLEDGEMENTS
 
-Thanks Tony Sidaway for initial Wikipedia/MediaWiki support. Christopher J. Madsen for several major additions and tests.
+Thanks Tony Sidaway for initial Wikipedia/MediaWiki support. Christopher J. Madsen for several major additions and tests. Peter Hallam added several MediaWiki enhancements.
+
 
 
 =head1 DISCLAIMER OF WARRANTY
@@ -510,6 +516,6 @@ Christopher J. Madsen perl@cjmweb.net
 
 =head1 COPYRIGHT
 
-MMIII-MMVIII, John McNamara.
+MMIII-MMXII, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.

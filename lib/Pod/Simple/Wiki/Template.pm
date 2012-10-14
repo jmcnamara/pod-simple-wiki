@@ -14,7 +14,7 @@ package Pod::Simple::Wiki::Template;
 # Pod::Simple::Wiki::Template - A class for creating Pod to Template filters.
 #
 #
-# Copyright 2003-2008, John McNamara, jmcnamara@cpan.org
+# Copyright 2003-2012, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -27,7 +27,7 @@ use vars qw(@ISA $VERSION);
 
 
 @ISA     = qw(Pod::Simple::Wiki);
-$VERSION = '0.14';
+$VERSION = '0.15';
 
 # Portme. Start with these tags.
 
@@ -202,7 +202,7 @@ The C<Pod::Simple::Wiki::Template> module is used for converting Pod text to Wik
 
 Pod (Plain Old Documentation) is a simple markup language used for writing Perl documentation.
 
-For an introduction to Template see: http://www.portme.org
+For an introduction to Template see: L<http://www.portme.org>.
 
 This module isn't generally invoked directly. Instead it is called via C<Pod::Simple::Wiki>. See the L<Pod::Simple::Wiki> and L<pod2wiki> documentation for more information.
 
@@ -220,7 +220,7 @@ The following are some suggested steps in porting the module. For the sake of ex
 
 =head2 Portme Step 1
 
-Fork, clone or download the latest version of C<Pod::Simple::Wiki> from the github repository: http://github.com/jmcnamara/pod-simple-wiki/
+Fork, clone or download the latest version of C<Pod::Simple::Wiki> from the github repository: L<http://github.com/jmcnamara/pod-simple-wiki/>
 
 Copy the C</lib/Pod/Simple/Wiki/Template.pm> to a new module C</lib/Pod/Simple/Wiki/Portmewiki.pm>.
 
@@ -284,7 +284,7 @@ Remove or replace all C<portme> comments.
 
 =head2 Portme Step 7
 
-Send me a git pull request or the tarred directory with libs and tests and I'll release it to CPAN.
+Send me a git pull request on Github with libs and tests and I'll release it to CPAN.
 
 
 =head1 METHODS
@@ -320,6 +320,6 @@ Portme McPortme portme@portme.org
 
 =head1 COPYRIGHT
 
-MMIII-MMVIII, John McNamara.
+MMIII-MMXII, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.

@@ -12,34 +12,36 @@ DESCRIPTION
     A Wiki is a user extensible web site. It uses very simple mark-
     up that is converted to Html.
 
-    For an introduction to Wikis see:
-    http://en.wikipedia.org/wiki/Wiki
+    For an introduction to Wikis see: http://en.wikipedia.org/wiki/Wiki
 
 
 SYNOPSIS
     To create a simple `pod2wiki' filter:
 
-        #!/usr/bin/perl -w
+        #!/usr/bin/perl
 
         use strict;
+        use warnings;
         use Pod::Simple::Wiki;
 
         my $parser = Pod::Simple::Wiki->new();
 
-        if (defined $ARGV[0]) {
-            open IN, $ARGV[0]  or die "Couldn't open $ARGV[0]: $!\n";
-        } else {
+        if ( defined $ARGV[0] ) {
+            open IN, $ARGV[0] or die "Couldn't open $ARGV[0]: $!\n";
+        }
+        else {
             *IN = *STDIN;
         }
 
-        if (defined $ARGV[1]) {
+        if ( defined $ARGV[1] ) {
             open OUT, ">$ARGV[1]" or die "Couldn't open $ARGV[1]: $!\n";
-        } else {
+        }
+        else {
             *OUT = *STDOUT;
         }
 
-        $parser->output_fh(*OUT);
-        $parser->parse_file(*IN);
+        $parser->output_fh( *OUT );
+        $parser->parse_file( *IN );
 
         __END__
 
@@ -54,9 +56,8 @@ AUTHOR
 
 
 COPYRIGHT
-    © MMIII-MMV, John McNamara.
+    © MMIII-MMXII, John McNamara.
 
     All Rights Reserved. This module is free software. It may be
     used, redistributed and/or modified under the same terms as Perl
     itself.
-

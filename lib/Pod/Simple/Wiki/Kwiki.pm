@@ -5,7 +5,7 @@ package Pod::Simple::Wiki::Kwiki;
 # Pod::Simple::Wiki::Kwiki - A class for creating Pod to Kwiki filters.
 #
 #
-# Copyright 2003-2008, John McNamara, jmcnamara@cpan.org
+# Copyright 2003-2012, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -18,7 +18,7 @@ use vars qw(@ISA $VERSION);
 
 
 @ISA     = qw(Pod::Simple::Wiki);
-$VERSION = '0.14';
+$VERSION = '0.15';
 
 
 ###############################################################################
@@ -230,7 +230,7 @@ The C<Pod::Simple::Wiki::Kwiki> module is used for converting Pod text to Wiki t
 
 Pod (Plain Old Documentation) is a simple markup language used for writing Perl documentation.
 
-For an introduction to Kwiki see: http://www.kwiki.org
+For an introduction to Kwiki see: L<http://www.kwiki.org>
 
 This module isn't generally invoked directly. Instead it is called via C<Pod::Simple::Wiki>. See the L<Pod::Simple::Wiki> and L<pod2wiki> documentation for more information.
 
@@ -262,6 +262,6 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-MMIII-MMVIII, John McNamara.
+MMIII-MMXII, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.
