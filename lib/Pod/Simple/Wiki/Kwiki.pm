@@ -10,13 +10,15 @@ package Pod::Simple::Wiki::Kwiki;
 # Documentation after __END__
 #
 
+# perltidy with the following options: -mbl=2 -pt=0 -nola
+
 use Pod::Simple::Wiki;
 use strict;
 use vars qw(@ISA $VERSION);
 
 
 @ISA     = qw(Pod::Simple::Wiki);
-$VERSION = '0.08';
+$VERSION = '0.14';
 
 
 ###############################################################################
@@ -24,24 +26,24 @@ $VERSION = '0.08';
 # The tag to wiki mappings.
 #
 my $tags = {
-            '<b>'    => '*',
-            '</b>'   => '*',
-            '<i>'    => '/',
-            '</i>'   => '/',
-            '<tt>'   => '[=',
-            '</tt>'  => ']',
-            '<pre>'  => '',
-            '</pre>' => "\n\n",
+    '<b>'    => '*',
+    '</b>'   => '*',
+    '<i>'    => '/',
+    '</i>'   => '/',
+    '<tt>'   => '[=',
+    '</tt>'  => ']',
+    '<pre>'  => '',
+    '</pre>' => "\n\n",
 
-            '<h1>'   => "\n----\n= ",
-            '</h1>'  => " =\n\n",
-            '<h2>'   => "\n== ",
-            '</h2>'  => " ==\n\n",
-            '<h3>'   => "\n=== ",
-            '</h3>'  => " ===\n\n",
-            '<h4>'   => "==== ",
-            '</h4>'  => "\n\n",
-           };
+    '<h1>'  => "\n----\n= ",
+    '</h1>' => " =\n\n",
+    '<h2>'  => "\n== ",
+    '</h2>' => " ==\n\n",
+    '<h3>'  => "\n=== ",
+    '</h3>' => " ===\n\n",
+    '<h4>'  => "==== ",
+    '</h4>' => "\n\n",
+};
 
 
 ###############################################################################
@@ -52,11 +54,11 @@ my $tags = {
 #
 sub new {
 
-    my $class                   = shift;
-    my $self                    = Pod::Simple::Wiki->new('wiki', @_);
-       $self->{_tags}           = $tags;
+    my $class = shift;
+    my $self = Pod::Simple::Wiki->new( 'wiki', @_ );
+    $self->{_tags} = $tags;
 
-    bless  $self, $class;
+    bless $self, $class;
     return $self;
 }
 
@@ -74,14 +76,14 @@ sub _indent_item {
     my $item_param   = $_[1];
     my $indent_level = $self->{_item_indent};
 
-    if    ($item_type eq 'bullet') {
-         $self->_append('*' x $indent_level . ' ');
+    if ( $item_type eq 'bullet' ) {
+        $self->_append( '*' x $indent_level . ' ' );
     }
-    elsif ($item_type eq 'number') {
-         $self->_append('0' x $indent_level . ' ');
+    elsif ( $item_type eq 'number' ) {
+        $self->_append( '0' x $indent_level . ' ' );
     }
-    elsif ($item_type eq 'text') {
-         $self->_append(';' x $indent_level . ' ');
+    elsif ( $item_type eq 'text' ) {
+        $self->_append( ';' x $indent_level . ' ' );
     }
 }
 
@@ -96,12 +98,12 @@ sub _skip_headings {
 
     my $self = shift;
 
-    if ($self->{_in_head1} or
-        $self->{_in_head2} or
-        $self->{_in_head3} or
-        $self->{_in_head4})
+    if (   $self->{_in_head1}
+        or $self->{_in_head2}
+        or $self->{_in_head3}
+        or $self->{_in_head4} )
     {
-      return 1;
+        return 1;
     }
 }
 
@@ -118,7 +120,7 @@ sub _handle_text {
     my $text = $_[0];
 
     # Only escape CamelCase in Kwiki paragraphs
-    if (not $self->{_in_Para}) {
+    if ( not $self->{_in_Para} ) {
         $self->{_wiki_text} .= $text;
         return;
     }
@@ -126,10 +128,10 @@ sub _handle_text {
     # Split the text into tokens but maintain the whitespace
     my @tokens = split /(\s+)/, $text;
 
-    for (@tokens) {
-        next unless /\S/;                    # Ignore the whitespace
-        next if m[^(ht|f)tp://];             # Ignore URLs
-        s/([A-Z][a-z]+[A-Z]\w+)/!$1/g;       # Escape with !
+    for ( @tokens ) {
+        next unless /\S/;    # Ignore the whitespace
+        next if m[^(ht|f)tp://];    # Ignore URLs
+        s/([A-Z][a-z]+[A-Z]\w+)/!$1/g;    # Escape with !
     }
 
     # Rejoin the tokens and whitespace.
@@ -146,7 +148,7 @@ sub _handle_text {
 # Text     lists
 # Block    lists
 #
-sub _end_item_text     {$_[0]->_output(' ; ')}
+sub _end_item_text { $_[0]->_output( ' ; ' ) }
 
 
 ###############################################################################
@@ -160,7 +162,8 @@ sub _start_Para {
     my $self         = shift;
     my $indent_level = $self->{_item_indent};
 
-    if ($self->{_in_over_block}) {
+    if ( $self->{_in_over_block} ) {
+
         # Do something here is necessary
     }
 }
@@ -178,15 +181,16 @@ sub _end_Para {
     my $self = shift;
 
     # Only add a newline if the paragraph isn't part of a text.
-    if ($self->{_in_over_text}) {
+    if ( $self->{_in_over_text} ) {
+
         # Workaround for the fact that Kwiki doesn't have a definition block.
         #$self->_output("\n");
     }
     else {
-        $self->_output("\n");
+        $self->_output( "\n" );
     }
 
-    $self->_output("\n")
+    $self->_output( "\n" );
 }
 
 
@@ -258,6 +262,6 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-© MMIII-MMVIII, John McNamara.
+MMIII-MMVIII, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.

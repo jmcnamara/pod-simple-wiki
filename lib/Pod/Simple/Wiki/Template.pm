@@ -6,12 +6,7 @@ package Pod::Simple::Wiki::Template;
 # Read the Portme section of the documentation below for more information.
 #
 # Portme. Try to maintain the same code style as this module:
-#     4 space indents.
-#     No tabs.
-#     No trailing whitespace.
-#     79 column wrap.
-#     Consistency.
-#
+#     perltidy with the following options: -mbl=2 -pt=0 -nola
 
 
 ###############################################################################
@@ -24,13 +19,15 @@ package Pod::Simple::Wiki::Template;
 # Documentation after __END__
 #
 
+# perltidy with the following options: -mbl=2 -pt=0 -nola
+
 use Pod::Simple::Wiki;
 use strict;
 use vars qw(@ISA $VERSION);
 
 
 @ISA     = qw(Pod::Simple::Wiki);
-$VERSION = '0.08';
+$VERSION = '0.14';
 
 # Portme. Start with these tags.
 
@@ -39,24 +36,24 @@ $VERSION = '0.08';
 # The tag to wiki mappings.
 #
 my $tags = {
-            '<b>'    => '*',
-            '</b>'   => '*',
-            '<i>'    => '/',
-            '</i>'   => '/',
-            '<tt>'   => '[=',
-            '</tt>'  => ']',
-            '<pre>'  => '',
-            '</pre>' => "\n\n",
+    '<b>'    => '*',
+    '</b>'   => '*',
+    '<i>'    => '/',
+    '</i>'   => '/',
+    '<tt>'   => '[=',
+    '</tt>'  => ']',
+    '<pre>'  => '',
+    '</pre>' => "\n\n",
 
-            '<h1>'   => "\n----\n= ",
-            '</h1>'  => " =\n\n",
-            '<h2>'   => "\n== ",
-            '</h2>'  => " ==\n\n",
-            '<h3>'   => "\n=== ",
-            '</h3>'  => " ===\n\n",
-            '<h4>'   => "==== ",
-            '</h4>'  => "\n\n",
-           };
+    '<h1>'  => "\n----\n= ",
+    '</h1>' => " =\n\n",
+    '<h2>'  => "\n== ",
+    '</h2>' => " ==\n\n",
+    '<h3>'  => "\n=== ",
+    '</h3>' => " ===\n\n",
+    '<h4>'  => "==== ",
+    '</h4>' => "\n\n",
+};
 
 # Portme. You can leave new() as it is.
 
@@ -68,11 +65,11 @@ my $tags = {
 #
 sub new {
 
-    my $class                   = shift;
-    my $self                    = Pod::Simple::Wiki->new('wiki', @_);
-       $self->{_tags}           = $tags;
+    my $class = shift;
+    my $self = Pod::Simple::Wiki->new( 'wiki', @_ );
+    $self->{_tags} = $tags;
 
-    bless  $self, $class;
+    bless $self, $class;
     return $self;
 }
 
@@ -91,14 +88,14 @@ sub _indent_item {
     my $item_param   = $_[1];
     my $indent_level = $self->{_item_indent};
 
-    if    ($item_type eq 'bullet') {
-         $self->_append('*' x $indent_level . ' ');
+    if ( $item_type eq 'bullet' ) {
+        $self->_append( '*' x $indent_level . ' ' );
     }
-    elsif ($item_type eq 'number') {
-         $self->_append('0' x $indent_level . ' ');
+    elsif ( $item_type eq 'number' ) {
+        $self->_append( '0' x $indent_level . ' ' );
     }
-    elsif ($item_type eq 'text') {
-         $self->_append(';' x $indent_level . ' ');
+    elsif ( $item_type eq 'text' ) {
+        $self->_append( ';' x $indent_level . ' ' );
     }
 }
 
@@ -117,7 +114,7 @@ sub _handle_text {
     my $text = $_[0];
 
     # Only escape words in paragraphs
-    if (not $self->{_in_Para}) {
+    if ( not $self->{_in_Para} ) {
         $self->{_wiki_text} .= $text;
         return;
     }
@@ -144,7 +141,7 @@ sub _handle_text {
 # Text     lists
 # Block    lists
 #
-sub _end_item_text     {$_[0]->_output(' ; ')}
+sub _end_item_text { $_[0]->_output( ' ; ' ) }
 
 
 # Portme: Probably won't have to change this.
@@ -160,7 +157,8 @@ sub _start_Para {
     my $self         = shift;
     my $indent_level = $self->{_item_indent};
 
-    if ($self->{_in_over_block}) {
+    if ( $self->{_in_over_block} ) {
+
         # Do something here is necessary
     }
 }
@@ -322,6 +320,6 @@ Portme McPortme portme@portme.org
 
 =head1 COPYRIGHT
 
-© MMIII-MMVIII, John McNamara.
+MMIII-MMVIII, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.

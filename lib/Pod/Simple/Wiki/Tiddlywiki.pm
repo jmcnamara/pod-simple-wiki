@@ -10,37 +10,39 @@ package Pod::Simple::Wiki::Tiddlywiki;
 # Documentation after __END__
 #
 
+# perltidy with the following options: -mbl=2 -pt=0 -nola
+
 use Pod::Simple::Wiki;
 use strict;
 use vars qw(@ISA $VERSION);
 
 
 @ISA     = qw(Pod::Simple::Wiki);
-$VERSION = '0.08';
+$VERSION = '0.14';
 
 ###############################################################################
 #
 # The tag to wiki mappings.
 #
 my $tags = {
-            '<b>'    => q(''),
-            '</b>'   => q(''),
-            '<i>'    => '//',
-            '</i>'   => '//',
-            '<tt>'   => '{{{',
-            '</tt>'  => '}}}',
-            '<pre>'  => "{{{\n",
-            '</pre>' => "\n}}}\n\n",
+    '<b>'    => q(''),
+    '</b>'   => q(''),
+    '<i>'    => '//',
+    '</i>'   => '//',
+    '<tt>'   => '{{{',
+    '</tt>'  => '}}}',
+    '<pre>'  => "{{{\n",
+    '</pre>' => "\n}}}\n\n",
 
-            '<h1>'   => '!',
-            '</h1>'  => "\n",
-            '<h2>'   => '!!',
-            '</h2>'  => "\n",
-            '<h3>'   => '!!!',
-            '</h3>'  => "\n",
-            '<h4>'   => '!!!!',
-            '</h4>'  => "\n",
-           };
+    '<h1>'  => '!',
+    '</h1>' => "\n",
+    '<h2>'  => '!!',
+    '</h2>' => "\n",
+    '<h3>'  => '!!!',
+    '</h3>' => "\n",
+    '<h4>'  => '!!!!',
+    '</h4>' => "\n",
+};
 
 ###############################################################################
 #
@@ -50,11 +52,11 @@ my $tags = {
 #
 sub new {
 
-    my $class                   = shift;
-    my $self                    = Pod::Simple::Wiki->new('wiki', @_);
-       $self->{_tags}           = $tags;
+    my $class = shift;
+    my $self = Pod::Simple::Wiki->new( 'wiki', @_ );
+    $self->{_tags} = $tags;
 
-    bless  $self, $class;
+    bless $self, $class;
     return $self;
 }
 
@@ -73,16 +75,17 @@ sub _indent_item {
     my $item_param   = $_[1];
     my $indent_level = $self->{_item_indent};
 
-    if    ($item_type eq 'bullet') {
-         $self->_append('*' x $indent_level . ' ');
+    if ( $item_type eq 'bullet' ) {
+        $self->_append( '*' x $indent_level . ' ' );
     }
-    elsif ($item_type eq 'number') {
-         $self->_append('#' x $indent_level . ' ');
+    elsif ( $item_type eq 'number' ) {
+        $self->_append( '#' x $indent_level . ' ' );
     }
+
     # TiddlyWiki doesn't have the equivalent of a <dl> list so we use a
     # bullet list as a workaround.
-    elsif ($item_type eq 'text') {
-         $self->_append('*' x $indent_level . ' ');
+    elsif ( $item_type eq 'text' ) {
+        $self->_append( '*' x $indent_level . ' ' );
     }
 }
 
@@ -102,16 +105,17 @@ sub _handle_text {
     my @tokens = split /(\s+)/, $text;
 
 
-
     # Escape any tokens here, if necessary.
-    for (@tokens) {
-        next unless /\S/;  # Ignore the whitespace
+    for ( @tokens ) {
+        next unless /\S/;    # Ignore the whitespace
 
         # Escape WikiWords with ~, unless in varbatim section.
         next if $self->{_in_Verbatim};
         next if $self->{_in_C};
-	# Escape WikiWords  RT#60650
+
+        # Escape WikiWords  RT#60650
         s/(?<![A-Za-z0-9])([A-Z]+[-_0-9a-z]+[A-Z]+[-_0-9a-zA-Z]*)/~$1/g;
+
         # Escape TiddlyWiki formating sequences RT#60304
         s[(([-/'_^~@<>])\2+)][{{{$1}}}]g;
     }
@@ -132,7 +136,7 @@ sub _handle_text {
 
 # TiddlyWiki doesn't have the equivalent of a <dl> list so we use a
 # bullet list as a workaround.
-sub _end_item_text     {$_[0]->_output(' ')}
+sub _end_item_text { $_[0]->_output( ' ' ) }
 
 
 ###############################################################################
@@ -146,7 +150,8 @@ sub _start_Para {
     my $self         = shift;
     my $indent_level = $self->{_item_indent};
 
-    if ($self->{_in_over_block}) {
+    if ( $self->{_in_over_block} ) {
+
         # Do something here if necessary
     }
 }
@@ -220,6 +225,6 @@ Olivier 'dolmen' Mengué
 
 =head1 COPYRIGHT
 
-© MMIII-MMVIII, John McNamara.
+MMIII-MMVIII, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.

@@ -10,7 +10,10 @@ package Pod::Simple::Wiki;
 # Documentation after __END__
 #
 
+# perltidy with the following options: -mbl=2 -pt=0 -nola
+
 use strict;
+
 #use Pod::Simple::Debug (5);
 use Pod::Simple;
 use vars qw(@ISA $VERSION);
@@ -24,24 +27,24 @@ $VERSION = '0.14';
 # The tag to wiki mappings.
 #
 my $tags = {
-            '<b>'    => "'''",
-            '</b>'   => "'''",
-            '<i>'    => "''",
-            '</i>'   => "''",
-            '<tt>'   => '"',
-            '</tt>'  => '"',
-            '<pre>'  => '',
-            '</pre>' => "\n\n",
+    '<b>'    => "'''",
+    '</b>'   => "'''",
+    '<i>'    => "''",
+    '</i>'   => "''",
+    '<tt>'   => '"',
+    '</tt>'  => '"',
+    '<pre>'  => '',
+    '</pre>' => "\n\n",
 
-            '<h1>'   => "\n----\n'''",
-            '</h1>'  => "'''\n\n",
-            '<h2>'   => "\n'''''",
-            '</h2>'  => "'''''\n\n",
-            '<h3>'   => "\n''",
-            '</h3>'  => "''\n\n",
-            '<h4>'   => "\n",
-            '</h4>'  => "\n\n",
-           };
+    '<h1>'  => "\n----\n'''",
+    '</h1>' => "'''\n\n",
+    '<h2>'  => "\n'''''",
+    '</h2>' => "'''''\n\n",
+    '<h3>'  => "\n''",
+    '</h3>' => "''\n\n",
+    '<h4>'  => "\n",
+    '</h4>' => "\n\n",
+};
 
 
 ###############################################################################
@@ -52,36 +55,36 @@ my $tags = {
 #
 sub new {
 
-    my $class                   = shift;
-    my $format                  = lc shift || 'wiki';
-       $format                  = 'mediawiki' if $format eq 'wikipedia';
-       $format                  = 'moinmoin'  if $format eq 'moin';
+    my $class = shift;
+    my $format = lc shift || 'wiki';
+    $format = 'mediawiki' if $format eq 'wikipedia';
+    $format = 'moinmoin'  if $format eq 'moin';
 
-    my $module                  = "Pod::Simple::Wiki::" . ucfirst $format;
+    my $module = "Pod::Simple::Wiki::" . ucfirst $format;
 
     # Try to load a sub-module unless the format type is 'wiki' in which
     # case we use this, the parent, module. It's a design pattern, bitches!
-    if ($format ne 'wiki') {
+    if ( $format ne 'wiki' ) {
         eval "require $module";
         die "Module $module not implemented for wiki format $format\n" if $@;
-        return $module->new(@_);
+        return $module->new( @_ );
     }
 
-    my $self                    = Pod::Simple->new(@_);
-       $self->{_wiki_text}      = '';
-       $self->{_tags}           = $tags;
-       $self->{output_fh}     ||= *STDOUT{IO};
-       $self->{_item_indent}    = 0;
-       $self->{_debug}          = 0;
+    my $self = Pod::Simple->new( @_ );
+    $self->{_wiki_text} = '';
+    $self->{_tags}      = $tags;
+    $self->{output_fh} ||= *STDOUT{IO};
+    $self->{_item_indent} = 0;
+    $self->{_debug}       = 0;
 
     # Set Pod::Simple parser options
     # - Merge contiguous text        RT#60304
-    $self->merge_text(1);
+    $self->merge_text( 1 );
 
     # - Ignore X<>  (index entries)  RT#60307
-    $self->nix_X_codes(1);
+    $self->nix_X_codes( 1 );
 
-    bless  $self, $class;
+    bless $self, $class;
     return $self;
 }
 
@@ -129,7 +132,7 @@ sub _output {
 
     $text = '' unless defined $text;
 
-    print {$self->{output_fh}} $self->{_wiki_text}, $text;
+    print { $self->{output_fh} } $self->{_wiki_text}, $text;
 
     $self->{_wiki_text} = '';
 }
@@ -148,16 +151,17 @@ sub _indent_item {
     my $item_param   = $_[1];
     my $indent_level = $self->{_item_indent};
 
-    if    ($item_type eq 'bullet') {
-         $self->_append("*" x $indent_level);
-         # This was the way C2 Wiki used to define a bullet list
-         # $self->_append("\t" x $indent_level . '*');
+    if ( $item_type eq 'bullet' ) {
+        $self->_append( "*" x $indent_level );
+
+        # This was the way C2 Wiki used to define a bullet list
+        # $self->_append("\t" x $indent_level . '*');
     }
-    elsif ($item_type eq 'number') {
-         $self->_append("\t" x $indent_level . $item_param);
+    elsif ( $item_type eq 'number' ) {
+        $self->_append( "\t" x $indent_level . $item_param );
     }
-    elsif ($item_type eq 'text') {
-         $self->_append("\t" x $indent_level);
+    elsif ( $item_type eq 'text' ) {
+        $self->_append( "\t" x $indent_level );
     }
 }
 
@@ -187,7 +191,7 @@ sub _append_tag {
     my $self = shift;
     my $tag  = $_[0];
 
-    $self->_append($self->{_tags}->{$tag});
+    $self->_append( $self->{_tags}->{$tag} );
 }
 
 
@@ -219,14 +223,14 @@ sub _handle_element_start {
 
     $element =~ tr/-/_/;
 
-    if ($self->{_debug}) {
-        print '    ' x  $self->{_item_indent}, "<$element>\n";
+    if ( $self->{_debug} ) {
+        print '    ' x $self->{_item_indent}, "<$element>\n";
     }
 
-    $self->{"_in_". $element}++;
+    $self->{ "_in_" . $element }++;
 
-    if (my $method = $self->can('_start_' . $element)) {
-        $method->($self, $_[1]);
+    if ( my $method = $self->can( '_start_' . $element ) ) {
+        $method->( $self, $_[1] );
     }
 }
 
@@ -245,14 +249,14 @@ sub _handle_element_end {
 
     $element =~ tr/-/_/;
 
-    if (my $method = $self->can('_end_' . $element)) {
-        $method->($self);
+    if ( my $method = $self->can( '_end_' . $element ) ) {
+        $method->( $self );
     }
 
-    $self->{"_in_". $element}--;
+    $self->{ "_in_" . $element }--;
 
-    if ($self->{_debug}) {
-        print "\n", '    ' x  $self->{_item_indent}, "</$element>\n\n";
+    if ( $self->{_debug} ) {
+        print "\n", '    ' x $self->{_item_indent}, "</$element>\n\n";
     }
 }
 
@@ -272,10 +276,10 @@ sub _handle_text {
     # Split the text into tokens but maintain the whitespace
     my @tokens = split /(\s+)/, $text;
 
-    for (@tokens) {
-        next unless /\S/;                    # Ignore the whitespace
-        next if m[^(ht|f)tp://];             # Ignore URLs
-        s/([A-Z][a-z]+)(?=[A-Z])/$1''''''/g  # Escape with 6 single quotes
+    for ( @tokens ) {
+        next unless /\S/;    # Ignore the whitespace
+        next if m[^(ht|f)tp://];    # Ignore URLs
+        s/([A-Z][a-z]+)(?=[A-Z])/$1''''''/g    # Escape with 6 single quotes
 
     }
 
@@ -288,30 +292,30 @@ sub _handle_text {
 #
 # Functions to deal with the I<>, B<> and C<> formatting codes.
 #
-sub _start_I  {$_[0]->_append_tag('<i>')   unless $_[0]->_skip_headings()}
-sub _start_B  {$_[0]->_append_tag('<b>')   unless $_[0]->_skip_headings()}
-sub _start_C  {$_[0]->_append_tag('<tt>')  unless $_[0]->_skip_headings()}
-sub _start_F  {$_[0]->_start_I}
+sub _start_I { $_[0]->_append_tag( '<i>' )  unless $_[0]->_skip_headings() }
+sub _start_B { $_[0]->_append_tag( '<b>' )  unless $_[0]->_skip_headings() }
+sub _start_C { $_[0]->_append_tag( '<tt>' ) unless $_[0]->_skip_headings() }
+sub _start_F { $_[0]->_start_I }
 
-sub _end_I    {$_[0]->_append_tag('</i>')  unless $_[0]->_skip_headings()}
-sub _end_B    {$_[0]->_append_tag('</b>')  unless $_[0]->_skip_headings()}
-sub _end_C    {$_[0]->_append_tag('</tt>') unless $_[0]->_skip_headings()}
-sub _end_F    {$_[0]->_end_I}
+sub _end_I { $_[0]->_append_tag( '</i>' )  unless $_[0]->_skip_headings() }
+sub _end_B { $_[0]->_append_tag( '</b>' )  unless $_[0]->_skip_headings() }
+sub _end_C { $_[0]->_append_tag( '</tt>' ) unless $_[0]->_skip_headings() }
+sub _end_F { $_[0]->_end_I }
 
 
 ###############################################################################
 #
 # Functions to deal with the Pod =head directives
 #
-sub _start_head1 {$_[0]->_append_tag('<h1>')}
-sub _start_head2 {$_[0]->_append_tag('<h2>')}
-sub _start_head3 {$_[0]->_append_tag('<h3>')}
-sub _start_head4 {$_[0]->_append_tag('<h4>')}
+sub _start_head1 { $_[0]->_append_tag( '<h1>' ) }
+sub _start_head2 { $_[0]->_append_tag( '<h2>' ) }
+sub _start_head3 { $_[0]->_append_tag( '<h3>' ) }
+sub _start_head4 { $_[0]->_append_tag( '<h4>' ) }
 
-sub _end_head1   {$_[0]->_append_tag('</h1>'); $_[0]->_output()}
-sub _end_head2   {$_[0]->_append_tag('</h2>'); $_[0]->_output()}
-sub _end_head3   {$_[0]->_append_tag('</h3>'); $_[0]->_output()}
-sub _end_head4   {$_[0]->_append_tag('</h4>'); $_[0]->_output()}
+sub _end_head1 { $_[0]->_append_tag( '</h1>' ); $_[0]->_output() }
+sub _end_head2 { $_[0]->_append_tag( '</h2>' ); $_[0]->_output() }
+sub _end_head3 { $_[0]->_append_tag( '</h3>' ); $_[0]->_output() }
+sub _end_head4 { $_[0]->_append_tag( '</h4>' ); $_[0]->_output() }
 
 
 ###############################################################################
@@ -319,8 +323,8 @@ sub _end_head4   {$_[0]->_append_tag('</h4>'); $_[0]->_output()}
 # Functions to deal with verbatim paragraphs. We emit the text "as is" for now.
 # TODO: escape any Wiki formatting in text such as ''code''.
 #
-sub _start_Verbatim {$_[0]->_append_tag('<pre>')}
-sub _end_Verbatim   {$_[0]->_append_tag('</pre>'); $_[0]->_output()}
+sub _start_Verbatim { $_[0]->_append_tag( '<pre>' ) }
+sub _end_Verbatim { $_[0]->_append_tag( '</pre>' ); $_[0]->_output() }
 
 
 ###############################################################################
@@ -332,30 +336,36 @@ sub _end_Verbatim   {$_[0]->_append_tag('</pre>'); $_[0]->_output()}
 # Text     lists
 # Block    lists
 #
-sub _start_over_bullet {$_[0]->{_item_indent}++}
-sub _start_over_number {$_[0]->{_item_indent}++}
-sub _start_over_text   {$_[0]->{_item_indent}++}
+sub _start_over_bullet { $_[0]->{_item_indent}++ }
+sub _start_over_number { $_[0]->{_item_indent}++ }
+sub _start_over_text   { $_[0]->{_item_indent}++ }
 
-sub _end_over_bullet   {$_[0]->{_item_indent}--;
-                        $_[0]->_output("\n") unless $_[0]->{_item_indent}}
+sub _end_over_bullet {
+    $_[0]->{_item_indent}--;
+    $_[0]->_output( "\n" ) unless $_[0]->{_item_indent};
+}
 
-sub _end_over_number   {$_[0]->{_item_indent}--;
-                        $_[0]->_output("\n") unless $_[0]->{_item_indent}}
+sub _end_over_number {
+    $_[0]->{_item_indent}--;
+    $_[0]->_output( "\n" ) unless $_[0]->{_item_indent};
+}
 
-sub _end_over_text     {$_[0]->{_item_indent}--;
-                        $_[0]->_output("\n") unless $_[0]->{_item_indent}}
+sub _end_over_text {
+    $_[0]->{_item_indent}--;
+    $_[0]->_output( "\n" ) unless $_[0]->{_item_indent};
+}
 
-sub _start_item_bullet {$_[0]->_indent_item('bullet')}
-sub _start_item_number {$_[0]->_indent_item('number', $_[1]->{number})}
-sub _start_item_text   {$_[0]->_indent_item('text')}
+sub _start_item_bullet { $_[0]->_indent_item( 'bullet' ) }
+sub _start_item_number { $_[0]->_indent_item( 'number', $_[1]->{number} ) }
+sub _start_item_text   { $_[0]->_indent_item( 'text' ) }
 
-sub _end_item_bullet   {$_[0]->_output("\n")}
-sub _end_item_number   {$_[0]->_output("\n")}
+sub _end_item_bullet { $_[0]->_output( "\n" ) }
+sub _end_item_number { $_[0]->_output( "\n" ) }
 
-sub _end_item_text     {$_[0]->_output(":\t")} # Format specific.
+sub _end_item_text { $_[0]->_output( ":\t" ) }    # Format specific.
 
-sub _start_over_block  {$_[0]->{_item_indent}++}
-sub _end_over_block    {$_[0]->{_item_indent}--}
+sub _start_over_block { $_[0]->{_item_indent}++ }
+sub _end_over_block   { $_[0]->{_item_indent}-- }
 
 
 ###############################################################################
@@ -369,8 +379,8 @@ sub _start_Para {
     my $self         = shift;
     my $indent_level = $self->{_item_indent};
 
-    if ($self->{_in_over_block}) {
-        $self->_append(("\t" x $indent_level) . " :\t");
+    if ( $self->{_in_over_block} ) {
+        $self->_append( ( "\t" x $indent_level ) . " :\t" );
     }
 }
 
@@ -386,14 +396,15 @@ sub _end_Para {
     my $self = shift;
 
     # Only add a newline if the paragraph isn't part of a text
-    if ($self->{_in_over_text}) {
+    if ( $self->{_in_over_text} ) {
+
         # Do nothing in this format.
     }
     else {
-        $self->_output("\n");
+        $self->_output( "\n" );
     }
 
-    $self->_output("\n")
+    $self->_output( "\n" );
 }
 
 

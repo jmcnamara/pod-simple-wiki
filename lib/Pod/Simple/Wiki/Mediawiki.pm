@@ -10,13 +10,15 @@ package Pod::Simple::Wiki::Mediawiki;
 # Documentation after __END__
 #
 
+# perltidy with the following options: -mbl=2 -pt=0 -nola
+
 use Pod::Simple::Wiki;
 use strict;
 use vars qw(@ISA $VERSION);
 
 
 @ISA     = qw(Pod::Simple::Wiki);
-$VERSION = '0.08';
+$VERSION = '0.14';
 
 
 ###############################################################################
@@ -24,24 +26,24 @@ $VERSION = '0.08';
 # The tag to wiki mappings.
 #
 my $tags = {
-            '<b>'    => "'''",
-            '</b>'   => "'''",
-            '<i>'    => "''",
-            '</i>'   => "''",
-            '<tt>'   => '<tt>',
-            '</tt>'  => '</tt>',
-            '<pre>'  => "<code>\n",
-            '</pre>' => "\n</code>\n",
+    '<b>'    => "'''",
+    '</b>'   => "'''",
+    '<i>'    => "''",
+    '</i>'   => "''",
+    '<tt>'   => '<tt>',
+    '</tt>'  => '</tt>',
+    '<pre>'  => "<code>\n",
+    '</pre>' => "\n</code>\n",
 
-            '<h1>'   => '==',
-            '</h1>'  => "==\n",
-            '<h2>'   => '===',
-            '</h2>'  => "===\n",
-            '<h3>'   => '====',
-            '</h3>'  => "====\n",
-            '<h4>'   => '=====',
-            '</h4>'  => "=====\n",
-           };
+    '<h1>'  => '==',
+    '</h1>' => "==\n",
+    '<h2>'  => '===',
+    '</h2>' => "===\n",
+    '<h3>'  => '====',
+    '</h3>' => "====\n",
+    '<h4>'  => '=====',
+    '</h4>' => "=====\n",
+};
 
 
 ###############################################################################
@@ -49,10 +51,10 @@ my $tags = {
 # The default module options
 #
 my $default_opts = {
-    transformer_lists       => 0,
-    link_prefix             => 0,
-    sentence_case_headers   => 0,
-    remove_name_section     => 0,
+    transformer_lists     => 0,
+    link_prefix           => 0,
+    sentence_case_headers => 0,
+    remove_name_section   => 0,
 };
 
 
@@ -64,36 +66,39 @@ my $default_opts = {
 #
 sub new {
 
-    my $class                           = shift;
-    my $opts                            = {};
+    my $class = shift;
+    my $opts  = {};
 
-    if (ref $_[-1] eq 'HASH') {
-       $opts = pop @_;
+    if ( ref $_[-1] eq 'HASH' ) {
+        $opts = pop @_;
 
-       # Merge custom tags with the default tags, if passed.
-       $opts->{tags}                    = { %$tags, %{ exists $opts->{custom_tags}
-                                                           ? delete $opts->{custom_tags}
-                                                           : {}
-                                                     }
-                                          };
+        # Merge custom tags with the default tags, if passed.
+        $opts->{tags} = {
+            %$tags,
+            %{
+                exists $opts->{custom_tags}
+                ? delete $opts->{custom_tags}
+                : {}
+            }
+        };
     }
     else {
-       $opts->{tags}                    = $tags;
+        $opts->{tags} = $tags;
     }
 
-    $opts                               = { %$default_opts, %$opts };
+    $opts = { %$default_opts, %$opts };
 
-    my $self                            = Pod::Simple::Wiki->new('wiki', @_);
-       $self->{_tags}                   = $opts->{tags};
-       $self->{_transformer_lists}      = $opts->{transformer_lists};
-       $self->{_link_prefix}            = $opts->{link_prefix};
-       $self->{_sentence_case_headers}  = $opts->{sentence_case_headers};
-       $self->{_remove_name_section}    = $opts->{remove_name_section};
+    my $self = Pod::Simple::Wiki->new( 'wiki', @_ );
+    $self->{_tags}                  = $opts->{tags};
+    $self->{_transformer_lists}     = $opts->{transformer_lists};
+    $self->{_link_prefix}           = $opts->{link_prefix};
+    $self->{_sentence_case_headers} = $opts->{sentence_case_headers};
+    $self->{_remove_name_section}   = $opts->{remove_name_section};
 
-    bless  $self, $class;
+    bless $self, $class;
 
-    $self->accept_targets('mediawiki');
-    $self->nbsp_for_S(1);
+    $self->accept_targets( 'mediawiki' );
+    $self->nbsp_for_S( 1 );
 
     return $self;
 }
@@ -109,9 +114,9 @@ sub _append {
 
     my $self = shift;
 
-    if ($self->{_indent_text}) {
-      $self->{_wiki_text} .= $self->{_indent_text};
-      $self->{_indent_text} = '';
+    if ( $self->{_indent_text} ) {
+        $self->{_wiki_text} .= $self->{_indent_text};
+        $self->{_indent_text} = '';
     }
 
     $self->{_wiki_text} .= $_[0];
@@ -131,14 +136,14 @@ sub _indent_item {
     my $item_param   = $_[1];
     my $indent_level = $self->{_item_indent};
 
-    if    ($item_type eq 'bullet') {
-         $self->_append('*' x $indent_level . ' ');
+    if ( $item_type eq 'bullet' ) {
+        $self->_append( '*' x $indent_level . ' ' );
     }
-    elsif ($item_type eq 'number') {
-         $self->_append('#' x $indent_level . ' ');
+    elsif ( $item_type eq 'number' ) {
+        $self->_append( '#' x $indent_level . ' ' );
     }
-    elsif ($item_type eq 'text') {
-         $self->_append(':' x ($indent_level-1) . '; ');
+    elsif ( $item_type eq 'text' ) {
+        $self->_append( ':' x ( $indent_level - 1 ) . '; ' );
     }
 }
 
@@ -148,24 +153,25 @@ sub _indent_item {
 # Functions to deal with links.
 
 sub _start_L {
-  my ($self, $attr) = @_;
+    my ( $self, $attr ) = @_;
 
-  unless ($self->_skip_headings) {
-    $self->_append('');         # In case we have _indent_text pending
-    $self->_output; # Flush the text buffer, so it will contain only the link text
-    $self->{_link_attr} = $attr; # Save for later
-  } # end unless skipping formatting because in heading
-} # end _start_L
+    unless ( $self->_skip_headings ) {
+        $self->_append( '' );    # In case we have _indent_text pending
+        $self->_output
+          ;    # Flush the text buffer, so it will contain only the link text
+        $self->{_link_attr} = $attr;    # Save for later
+    }    # end unless skipping formatting because in heading
+}    # end _start_L
 
 sub _end_L {
-  my $self = $_[0];
+    my $self = $_[0];
 
-  my $attr = delete $self->{_link_attr};
+    my $attr = delete $self->{_link_attr};
 
-  if ($attr and my $method = $self->can('_format_link')) {
-    $self->{_wiki_text} = $method->($self, $self->{_wiki_text}, $attr);
-  } # end if link to be processed
-} # end _end_L
+    if ( $attr and my $method = $self->can( '_format_link' ) ) {
+        $self->{_wiki_text} = $method->( $self, $self->{_wiki_text}, $attr );
+    }    # end if link to be processed
+}    # end _end_L
 
 
 ###############################################################################
@@ -173,42 +179,43 @@ sub _end_L {
 # _format_link
 
 sub _format_link {
-  my ($self, $text, $attr) = @_;
+    my ( $self, $text, $attr ) = @_;
 
-  if ($attr->{type} eq 'url') {
-    my $link = $attr->{to};
+    if ( $attr->{type} eq 'url' ) {
+        my $link = $attr->{to};
 
-    return $link if $attr->{'content-implicit'};
-    return "[$link $text]";
-  } # end if hyperlink to URL
+        return $link if $attr->{'content-implicit'};
+        return "[$link $text]";
+    }    # end if hyperlink to URL
 
-  # Manpage:
-  if ($attr->{type} eq 'man') {
-    # FIXME link to http://www.linuxmanpages.com?
-    return "<tt>$text</tt>" if $attr->{'content-implicit'};
-    return "$text (<tt>$attr->{to}</tt>)";
-  } # end if manpage
+    # Manpage:
+    if ( $attr->{type} eq 'man' ) {
 
-  die "Unknown link type $attr->{type}" unless $attr->{type} eq 'pod';
+        # FIXME link to http://www.linuxmanpages.com?
+        return "<tt>$text</tt>" if $attr->{'content-implicit'};
+        return "$text (<tt>$attr->{to}</tt>)";
+    }    # end if manpage
 
-  # Handle a link within this page:
-  return "[[#$attr->{section}|$text]]" unless defined $attr->{to};
+    die "Unknown link type $attr->{type}" unless $attr->{type} eq 'pod';
 
-  # Handle a link to a specific section in another page:
-  if (defined $attr->{section}) {
-    return $self->{_link_prefix}
-      ? "[$self->{_link_prefix}$attr->{to}#$attr->{section} $text]"
-      : "[[$attr->{to}#$attr->{section}|$text]]"
-  }
+    # Handle a link within this page:
+    return "[[#$attr->{section}|$text]]" unless defined $attr->{to};
 
-  if ($attr->{'content-implicit'}) {
-    return $self->{_link_prefix}
-      ? "[$self->{_link_prefix}$attr->{to} $attr->{to}]"
-      : "[[$attr->{to}]]"
-  }
+    # Handle a link to a specific section in another page:
+    if ( defined $attr->{section} ) {
+        return $self->{_link_prefix}
+          ? "[$self->{_link_prefix}$attr->{to}#$attr->{section} $text]"
+          : "[[$attr->{to}#$attr->{section}|$text]]";
+    }
 
-  return "[[$attr->{to}|$text]]";
-} # end _format_link
+    if ( $attr->{'content-implicit'} ) {
+        return $self->{_link_prefix}
+          ? "[$self->{_link_prefix}$attr->{to} $attr->{to}]"
+          : "[[$attr->{to}]]";
+    }
+
+    return "[[$attr->{to}|$text]]";
+}    # end _format_link
 
 
 ###############################################################################
@@ -223,31 +230,32 @@ sub _handle_text {
     my $self = shift;
     my $text = $_[0];
 
-    if ($self->{_sentence_case_headers}) {
-        if ($self->{_in_head1}) {
+    if ( $self->{_sentence_case_headers} ) {
+        if ( $self->{_in_head1} ) {
             $text = ucfirst( lc( $text ) );
         }
     }
 
-    unless ($self->{_in_Data}) {
-      # Escape colons in definition lists:
-      if ($self->{_in_item_text}) {
-        $text =~ s/:/&#58;/g;   # A colon would end the item
-      }
+    unless ( $self->{_in_Data} ) {
 
-      # Escape empty lines in verbatim sections:
-      if ($self->{_in_Verbatim}) {
-        $text =~ s/^$/ /mg;    # An empty line would split the section
-      }
+        # Escape colons in definition lists:
+        if ( $self->{_in_item_text} ) {
+            $text =~ s/:/&#58;/g;    # A colon would end the item
+        }
 
-      $text =~ s/\xA0/&nbsp;/g; # Convert non-breaking spaces to entities
+        # Escape empty lines in verbatim sections:
+        if ( $self->{_in_Verbatim} ) {
+            $text =~ s/^$/ /mg;      # An empty line would split the section
+        }
 
-      $text =~ s/''/'&#39;/g;   # It's not a formatting code
+        $text =~ s/\xA0/&nbsp;/g;    # Convert non-breaking spaces to entities
 
-      $text =~ s/\xA9/&copy;/g; # Convert copyright symbols to entities
-    } # end unless in data paragraph
+        $text =~ s/''/'&#39;/g;      # It's not a formatting code
 
-    $self->_append($text);
+        $text =~ s/\xA9/&copy;/g;    # Convert copyright symbols to entities
+    }    # end unless in data paragraph
+
+    $self->_append( $text );
 }
 
 
@@ -260,7 +268,7 @@ sub _handle_text {
 # Text     lists
 # Block    lists
 #
-sub _end_item_text     { }      # _start_Para will insert the :
+sub _end_item_text { }    # _start_Para will insert the :
 
 
 ###############################################################################
@@ -274,17 +282,17 @@ sub _start_Para {
     my $self         = shift;
     my $indent_level = $self->{_item_indent};
 
-    if ($self->{_in_over_block}) {
-      $self->{_indent_text} = (':' x $indent_level);
+    if ( $self->{_in_over_block} ) {
+        $self->{_indent_text} = ( ':' x $indent_level );
     }
 
-    if ($self->{_in_over_text}) {
-      $self->{_indent_text} = "\n" . (':' x $indent_level);
+    if ( $self->{_in_over_text} ) {
+        $self->{_indent_text} = "\n" . ( ':' x $indent_level );
     }
 
-    if ($self->{_transformer_lists}) {
+    if ( $self->{_transformer_lists} ) {
         if ( $self->{_in_over_bullet} || $self->{_in_over_number} ) {
-            if ($self->{output_string}) {
+            if ( $self->{output_string} ) {
                 chomp( ${ $self->{output_string} } );
             }
             $self->{_indent_text} = "<p>";
@@ -304,10 +312,12 @@ sub _end_Para {
 
     # Only add a newline if the paragraph isn't part of a text
     if ( $self->{_in_over_text} ) {
+
         # Do nothing in this format.
     }
-    elsif ($self->{_transformer_lists}
-       && ($self->{_in_over_bullet} || $self->{_in_over_number})) {
+    elsif ( $self->{_transformer_lists}
+        && ( $self->{_in_over_bullet} || $self->{_in_over_number} ) )
+    {
 
         $self->_output( "</p>\n" );
     }
@@ -315,10 +325,11 @@ sub _end_Para {
         $self->_output( "\n" );
     }
 
-    unless ($self->{_transformer_lists}
-        && ($self->{_in_over_bullet} || $self->{_in_over_number})) {
+    unless ( $self->{_transformer_lists}
+        && ( $self->{_in_over_bullet} || $self->{_in_over_number} ) )
+    {
 
-        $self->_output("\n")
+        $self->_output( "\n" );
     }
 }
 
@@ -329,7 +340,7 @@ sub _end_Para {
 #
 # Special handling for data paragraphs
 
-sub _end_Data { $_[0]->_output("\n\n") }
+sub _end_Data { $_[0]->_output( "\n\n" ) }
 
 
 ###############################################################################
@@ -341,11 +352,12 @@ sub _end_Data { $_[0]->_output("\n\n") }
 sub parse_string_document {
     my $self = shift;
 
-    $self = $self->SUPER::parse_string_document(@_);
+    $self = $self->SUPER::parse_string_document( @_ );
 
-    if ($self->{_remove_name_section}) {
+    if ( $self->{_remove_name_section} ) {
         no warnings 'uninitialized';
-        ${ $self->{output_string} } =~ s/^==\s*NAME\s*==\n(?:[\w:]+)(?: - (.*))*/$1||''/iesg
+        ${ $self->{output_string} } =~
+          s/^==\s*NAME\s*==\n(?:[\w:]+)(?: - (.*))*/$1||''/iesg;
     }
 
     return $self;
@@ -498,6 +510,6 @@ Christopher J. Madsen perl@cjmweb.net
 
 =head1 COPYRIGHT
 
-© MMIII-MMVIII, John McNamara.
+MMIII-MMVIII, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.
