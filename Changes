@@ -2,7 +2,7 @@ Revision history for Pod::Simple::Wiki.
 
 0.16 Jan 26 2014
 
-     + Addes Dokuwiki support contributed by Joe Cooper
+     + Added Dokuwiki support contributed by Joe Cooper
      + Added rudimentary link support for twiki
      + Added Support for =for and =begin targets for twiki and the Template
 
