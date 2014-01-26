@@ -270,8 +270,8 @@ Number item 3.0
 #
 #
    1. Number item 1.0
-   2. Number item 2.0
-   3. Number item 3.0
+   1. Number item 2.0
+   1. Number item 3.0
 
 ###############################################################################
 #
@@ -324,9 +324,9 @@ Number item 2.0
    1. Number item 1.0
       1. Number item 1.1
          1. Number item 1.2
-         2. Number item 2.2
-      2. Number item 2.1
-   2. Number item 2.0
+         1. Number item 2.2
+      1. Number item 2.1
+   1. Number item 2.0
 
 ################################################################################
 #
@@ -489,7 +489,7 @@ Bullet item 2.0
       1. Number item 1.1
          $ Foo: Definition item 1.2
          $ Bar: Definition item 2.2
-      2. Number item 2.1
+      1. Number item 2.1
    * Bullet item 2.0
 
 ################################################################################
