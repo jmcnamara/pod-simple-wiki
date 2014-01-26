@@ -13,6 +13,7 @@ lib/Pod/Simple/Wiki/Twiki.pm
 lib/Pod/Simple/Wiki/Usemod.pm
 lib/Pod/Simple/Wiki/Confluence.pm
 lib/Pod/Simple/Wiki/Textile.pm
+lib/Pod/Simple/Wiki/Dokuwiki.pm
 
 bin/pod2wiki
 
@@ -36,6 +37,11 @@ t/03_03_usemod_lists.t
 t/04_01_twiki_format.t
 t/04_02_twiki_head.t
 t/04_03_twiki_lists.t
+t/04_04_twiki_links.t
+
+t/09_01_dokuwiki_format.t
+t/09_02_dokuwiki_head.t
+t/09_03_dokuwiki_lists.t
 
 t/05_01_mediawiki_format.t
 t/05_02_mediawiki_head.t
