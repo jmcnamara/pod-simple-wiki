@@ -86,7 +86,7 @@ sub _indent_item {
         $self->_append( '   ' x $indent_level . '1. ' );
     }
     elsif ( $item_type eq 'text' ) {
-        $self->_append( '   ' x $indent_level . '$ ' );
+        $self->_append( "\n" . '   ' x $indent_level . '$ ' );
     }
 }
 
