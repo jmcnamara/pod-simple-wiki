@@ -160,30 +160,33 @@ sub _start_L {
     # Ouput start of TWiki link and flush the _wiki_text buffer.
     $self->_output( '[[' );
 
-    # Only write [text|link] if text and link are different.
-    if ( $link_attrs->{type} ne "pod" ) {
+    # Only write link target, if it's  neither pod nor man
+    if ( $link_attrs->{type} ne "pod" && $link_attrs->{type} ne "man" ) {
         $self->_append( "$link_target][" );
     }
    
     if ( defined $link_section ) {
         # Handle links that are parsed as Pod links.
         
-        $self->{_wiki_text} = $link_section;
-
-        # Remove quotes around link name.
-        $self->{_wiki_text} =~ s/^"//;
-        $self->{_wiki_text} =~ s/"$//;
-        # Replace spaces by underscores
-        $self->{_wiki_text} =~ s/ /_/g;
-        # Remove !
-        $self->{_wiki_text} =~ s/!//g;
-        # Add anchor
-        $self->{_wiki_text} =~ s/^/#/;
-        # Adding a Comment is a Hack to get rid of the _wiki_text on anchor Links in _end_L
-        # Where to fix that?
-        $self->_append( "]]<!--" );
-
-        $self->_append( "]]" );
+	if ( ! $link_target ) {
+            # Link target if the link is to a section in the same Document
+	    $self->{_wiki_text} = $link_section;
+            
+            # Remove quotes around link name.
+            $self->{_wiki_text} =~ s/^"//;
+            $self->{_wiki_text} =~ s/"$//;
+            # Replace spaces by underscores
+            $self->{_wiki_text} =~ s/ /_/g;
+            # Remove !
+            $self->{_wiki_text} =~ s/!//g;
+            # Add anchor
+            $self->{_wiki_text} =~ s/^/#/;
+            $self->{_wiki_text}  =~ s/(.*)"[^"]*"$/\1/;
+            # Adding a Comment is a Hack to get rid of the _wiki_text on anchor Links in _end_L
+            # Where to fix that?
+            $self->_append( "]]<!--" );
+            $link_attrs->{section}='';
+        }
     } 
 }
 
@@ -202,17 +205,6 @@ sub _end_L {
 
     $self->_append( "]]" );
 
-#    # Only write [text|link] if text and link are different.
-#    #if ( $self->{_wiki_text} ne $link_target ) {
-#    if ( ! defined $link_section ) {
-#        if ( $link_attrs->{type} ne "pod" ) {
-#          # Only write [link][text] if text and link are different.
-#          # ^ link_section is always undefined.
-#          # no way found to determine, if link eq text, so just realize this for POD
-#          $self->_append( "$link_target][" );
-#        }
-#    }
-#    $self->_append( "]]" );
     # Hack
     $self->{_wiki_text} =~ s/<!--.*//;
 
