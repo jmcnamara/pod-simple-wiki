@@ -512,7 +512,7 @@ Bullet item 2.0
 
 =over
 
-This is a long sentence that forms part of a definition block.
+This is a long sentence *that* forms part of a definition block.
 
 =back
 
@@ -522,7 +522,7 @@ This is a long sentence that forms part of a definition block.
 # Expected output.
 #
 #
-This is a long sentence that forms part of a definition block.
+This is a long sentence \*that\* forms part of a definition block.
 
 ################################################################################
 #
