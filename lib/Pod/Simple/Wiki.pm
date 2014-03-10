@@ -56,7 +56,7 @@ my $tags = {
 sub new {
 
     my $class = shift;
-    my $format = lc shift || 'wiki';
+    my $format = lc( shift || 'wiki' );
     $format = 'mediawiki' if $format eq 'wikipedia';
     $format = 'moinmoin'  if $format eq 'moin';
 
