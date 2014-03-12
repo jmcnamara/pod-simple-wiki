@@ -89,6 +89,47 @@ sub _indent_item {
 
 ###############################################################################
 #
+# _start_L()
+#
+# Handle the start of a link element.
+#
+sub _start_L {
+
+    my $self       = shift;
+    my $link_attrs = shift;
+
+    $self->{_link_attrs} = $link_attrs;
+
+    # Ouput start of Confluence link and flush the _wiki_text buffer.
+    $self->_output( '[' );
+}
+
+
+###############################################################################
+#
+# _end_L()
+#
+# Handle the end of a link element.
+#
+sub _end_L {
+
+    my $self         = shift;
+    my $link_attrs   = $self->{_link_attrs};
+    my $link_target  = $link_attrs->{to};
+    my $link_section = $link_attrs->{section};
+
+	$link_target = '' if( !defined($link_target));
+
+    # Handle links that are parsed as Pod links.
+    if ( defined $link_section ) {
+        $link_target = "$link_target#$link_section";
+    }
+
+	$self->_append( "]($link_target)" );
+}
+
+###############################################################################
+#
 # _handle_text()
 #
 # Perform any necessary transforms on the text. This is mainly used to escape
@@ -110,6 +151,8 @@ sub _handle_text {
 
     # Escape any tokens here, if necessary.
     # The following characters are escaped by prepending a backslash: \`*_
+    # (Markdown has other escapes as well, but these cover most cases, and the others
+    # are usually optional.)
     @tokens = map { s/([\\`\*\_])/\\$1/gr } @tokens;
 
     # Rejoin the tokens and whitespace.
@@ -197,6 +240,10 @@ Pod::Simple::Wiki::Markdown inherits all of the methods of C<Pod::Simple> and C<
 
 Some format features of Pod are not present in base Markdown (and vice-versa).  In particular this module supports both code blocks and definition lists - in a somewhat inconsistant fashion.  Code blocks are supported using GitHub Markdown syntax: three backticks at the start and end of the codeblock.  Definition lists are (crudely) supported in the PHP Markdown Extra syntax: A colon followed by three spaces starting the line with the definition.  PHP Markdown Extra works with the GitHub syntax, so this should not cause a problem.  (GitHub does not support definition lists.)  This module also creates nested definition lists - which may or may not be supported.  (And may need extra newlines entered, which is beyond the technical limits of this module.)
 
+Links are always output in the universal [link text](link source) format, even when it's redundant, or overlong.  Anything POD considers a link will be treated as one, even if it's not a valid link.  (In particular, automatic 'man page' links will not point to anything useful - the user will be required to turn C<(Pod::Simple)> into something useful, likely your favorite interface for CPAN.)
+
+Escapes are automatically applied to asterisks, underscores, backticks, and backslashes, and they are always required.  Markdown provides escapes for other characters (in particular braces and parenthesis), but they are not required in all cases.  I leave it up to the user to determine when they would be considered formatting and when they wouldn't.
+
 =head1 SEE ALSO
 
 This module also installs a C<pod2wiki> command line utility. See C<pod2wiki --help> for details.
@@ -208,7 +255,6 @@ Thanks to Daniel T. Staal for patches, documentation or bugfixes.
 =head1 DISCLAIMER OF WARRANTY
 
 Please refer to the DISCLAIMER OF WARRANTY in L<Pod::Simple::Wiki>.
-
 
 =head1 AUTHORS
 
