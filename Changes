@@ -1,9 +1,15 @@
 Revision history for Pod::Simple::Wiki.
 
+0.16 May 4 2014
+
+     + Added support for Markdown.
+       Thanks to Daniel T. Staal.
+
+
 0.15 Oct 14 2012
 
      + Added options for beautifying MediaWiki output.
-       Changes provided by Peter Hallam. 
+       Changes provided by Peter Hallam.
 
      + Added rudimentary link support to Confluence.
 
@@ -25,7 +31,7 @@ Revision history for Pod::Simple::Wiki.
      ! Fix for RT#60304: Escape TiddlyWiki format sequences.
        Patch by Olivier 'dolmen' Mengue'.
 
-     ! Fix for RT#60307: Ignore X<>. 
+     ! Fix for RT#60307: Ignore X<>.
        Patch by Olivier 'dolmen' Mengue'.
 
 
@@ -111,5 +117,3 @@ Revision history for Pod::Simple::Wiki.
 	+ Initial version.
 
     + c2wiki support.
-
-

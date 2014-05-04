@@ -19,7 +19,7 @@ use Pod::Simple;
 use vars qw(@ISA $VERSION);
 
 @ISA     = qw(Pod::Simple);
-$VERSION = '0.15';
+$VERSION = '0.16';
 
 
 ###############################################################################
@@ -493,6 +493,7 @@ The currently supported formats are:
     tiddlywiki
     textile
     wikipedia or mediawiki
+    markdown
     moinmoin
     confluence
 
@@ -522,11 +523,11 @@ This is the format used by the Usemod wikis. See: L<http://www.usemod.com/cgi-bi
 
 =item twiki
 
-This is the format used by TWiki wikis.  See: L<http://twiki.org/>.
+This is the format used by TWiki wikis. See: L<http://twiki.org/>.
 
 =item tiddlywiki
 
-This is the format used by the TiddlyWiki.  See: L<http://www.tiddlywiki.com/>.
+This is the format used by the TiddlyWiki. See: L<http://www.tiddlywiki.com/>.
 
 =item textile
 
@@ -534,15 +535,20 @@ The Textile markup format as used on GitHub. See: L<http://textile.thresholdstat
 
 =item wikipedia or mediawiki
 
-This is the format used by Wikipedia and MediaWiki wikis.  See: L<http://www.mediawiki.org/>.
+This is the format used by Wikipedia and MediaWiki wikis. See: L<http://www.mediawiki.org/>.
+
+=item markdown
+
+This is the format used by GitHub and other sites. See: L<http://daringfireball.net/projects/markdown/syntax>.
 
 =item moinmoin
 
-This is the format used by MoinMoin wikis.  See: L<http://moinmo.in/MoinMoinWiki>.
+This is the format used by MoinMoin wikis. See: L<http://moinmo.in/MoinMoinWiki>.
+
 
 =item confluence
 
-This is the format used by Confluence.  See: L<http://www.atlassian.com/software/confluence/>.
+This is the format used by Confluence. See: L<http://www.atlassian.com/software/confluence/>.
 
 =back
 
@@ -580,6 +586,8 @@ Thanks to Sean M. Burke for C<Pod::Simple>. It may not be simple but sub-classin
 Thanks to Sam Tregar for TWiki support.
 
 Thanks Tony Sidaway for Wikipedia/MediaWiki support.
+
+Thanks to Daniel T. Staal for Markdown support.
 
 Thanks to Michael Matthews for MoinMoin support.
 

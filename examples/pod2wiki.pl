@@ -4,7 +4,7 @@
 #
 # pod2wiki - A utility to convert Pod documents to Wiki format.
 #
-# reverse('©'), August 2004, John McNamara, jmcnamara@cpan.org
+# Copyright John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -87,7 +87,7 @@ This program is used for converting Pod text to Wiki text.
 
 Pod is Perl's I<Plain Old Documentation> format. See C<man perlpod> or C<perldoc perlpod>.
 
-A Wiki is a user extensible web site. It uses very simple mark-up that is converted to Html. For an introduction to Wikis see: http://en.wikipedia.org/wiki/Wiki
+A Wiki is a user extensible web site. It uses very simple mark-up that is converted to Html. For an introduction to Wikis see: L<http://en.wikipedia.org/wiki/Wiki>
 
 
 =head1 OPTIONS
@@ -110,39 +110,44 @@ Sets the wiki style of the output. If no C<style> is specified the program defau
 
 =item wiki
 
-This is the original Wiki format as used on Ward Cunningham's Portland repository of Patterns. See http://c2.com/cgi/wiki
+This is the original Wiki format as used on Ward Cunningham's Portland repository of Patterns. See L<http://c2.com/cgi/wiki>
 
 =item kwiki
 
-This is the format as used by Brian Ingerson's Kwiki: http://www.kwiki.org
+This is the format as used by Brian Ingerson's Kwiki: L<http://www.kwiki.org>
 
 =item usemod
 
-This is the format used by the Usemod wikis. See: http://www.usemod.com/cgi-bin/wiki.pl
+This is the format used by the Usemod wikis. See: L<http://www.usemod.com/cgi-bin/wiki.pl>
 
 =item twiki
 
-This is the format used by TWiki wikis.  See: http://twiki.org/
+This is the format used by TWiki wikis. See: L<http://twiki.org/>
 
 =item tiddlywiki
 
-This is the format used by the TiddlyWiki.  See: http://www.tiddlywiki.com/
+This is the format used by the TiddlyWiki. See: L<http://www.tiddlywiki.com/>
 
 =item textile
 
-The Textile markup format as used on GitHub. See: http://textile.thresholdstate.com/
+The Textile markup format as used on GitHub. See: L<http://textile.thresholdstate.com/>
 
 =item wikipedia or mediawiki
 
-This is the format used by Wikipedia and MediaWiki wikis.  See: http://www.mediawiki.org/
+This is the format used by Wikipedia and MediaWiki wikis. See: L<http://www.mediawiki.org/>
+
+=item markdown
+
+This is the format used by GitHub and other sites. See: L<http://daringfireball.net/projects/markdown/syntax>.
+
 
 =item moinmoin
 
-This is the format used by MoinMoin wikis.  See: http://moinmo.in/MoinMoinWiki
+This is the format used by MoinMoin wikis. See: L<http://moinmo.in/MoinMoinWiki>
 
 =item confluence
 
-This is the format used by Confluence.  See: http://www.atlassian.com/software/confluence/
+This is the format used by Confluence. See: L<http://www.atlassian.com/software/confluence/>
 
 =back
 
@@ -184,7 +189,7 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-© MMIII-MMX John McNamara.
+(c) MMIII-MMXIV John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.
 

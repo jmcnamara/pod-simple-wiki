@@ -18,7 +18,7 @@ use vars qw(@ISA $VERSION);
 
 
 @ISA     = qw(Pod::Simple::Wiki);
-$VERSION = '0.15';
+$VERSION = '0.16';
 
 ###############################################################################
 #
@@ -225,6 +225,6 @@ Olivier 'dolmen' Mengué
 
 =head1 COPYRIGHT
 
-MMIII-MMXII, John McNamara.
+MMIII-MMXIV, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.
