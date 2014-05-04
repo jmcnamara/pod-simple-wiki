@@ -153,7 +153,7 @@ sub _handle_text {
     # The following characters are escaped by prepending a backslash: \`*_
     # (Markdown has other escapes as well, but these cover most cases, and the others
     # are usually optional.)
-    @tokens = map { s/([\\`\*\_])/\\$1/gr } @tokens;
+    @tokens = map { s/([\\`\*\_])/\\$1/g; $_ } @tokens;
 
     # Rejoin the tokens and whitespace.
     $self->{_wiki_text} .= join '', @tokens;
