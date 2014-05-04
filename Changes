@@ -1,5 +1,15 @@
 Revision history for Pod::Simple::Wiki.
 
+0.16 Jan 26 2014
+
+     + Added Dokuwiki support contributed by Joe Cooper
+     + Added rudimentary link support for twiki
+     + Added Support for =for and =begin targets for twiki and the Template
+
+     ! Fix for missing line breaks in lists for twiki
+     ! Fix for RT#71119 Confluence asterisk enumeration
+     ! Fix for RT#38833 Escaping of Confluence special characters
+
 0.15 Oct 14 2012
 
      + Added options for beautifying MediaWiki output.

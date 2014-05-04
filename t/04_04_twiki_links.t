@@ -4,33 +4,29 @@
 #
 # A test for Pod::Simple::Wiki.
 #
-# Tests for I<>, B<>, C<> etc., formatting codes.
+# Tests for L<> link formatting codes.
 #
-# reverse('©'), March 2005, Sam Tregar, sam@tregar.com
+# reverse('©'), January 2011, John McNamara, jmcnamara@cpan.org
 #
 
 
 use strict;
 
 use Pod::Simple::Wiki;
-use Test::More tests => 6;
+use Test::More tests => 4;
 
 my $style = 'twiki';
 
 # Output the tests for visual testing in the wiki.
 # END{output_tests()};
 
-my @tests  = (
-                # Simple formatting tests
-                [ "=pod\n\nI<Foo>"      => qq(_Foo_\n\n),   'Italic'         ],
-                [ "=pod\n\nB<Foo>"      => qq(*Foo*\n\n),   'Bold'           ],
-                [ "=pod\n\nC<Foo>"      => qq(=Foo=\n\n),   'Monospace'      ],
-                [ "=pod\n\nF<Foo>"      => qq(_Foo_\n\n),   'Filename'       ],
+my @tests = (
 
-                # Nested formatting tests
-                [ "=pod\n\nB<I<Foo>>"   => qq(__Foo__\n\n), 'Bold Italic'    ],
-                [ "=pod\n\nI<B<Foo>>"   => qq(__Foo__\n\n), 'Italic Bold',    
-                                                            'Fix this later.'],
+    # Simple URLs.
+    [ "=pod\n\nL<www.perl.com>"      => qq([[www.perl.com]]\n\n),      'Simple URL' ],
+    [ "=pod\n\nL<Perl|http://www.perl.com>" => qq([[http://www.perl.com][Perl]]\n\n), 'Simple URL with text' ],
+    [ "=pod\n\nL<Document>"          => qq([[Document]]\n\n),          'Simple doc link' ],
+    [ "=pod\n\nL</Doc Link>"          => qq([[#Doc_Link]]\n\n),          'Simple anchor link' ],
 );
 
 
@@ -44,13 +40,11 @@ for my $test_ref (@tests) {
     my $pod     = $test_ref->[0];
     my $target  = $test_ref->[1];
     my $name    = $test_ref->[2];
-    my $todo    = $test_ref->[3];
     my $wiki;
 
     $parser->output_string(\$wiki);
     $parser->parse_string_document($pod);
 
-    local $TODO = $todo;
     is($wiki, $target, "\tTesting: $name");
 }
 

@@ -18,7 +18,7 @@ use vars qw(@ISA $VERSION);
 
 
 @ISA     = qw(Pod::Simple::Wiki);
-$VERSION = '0.15';
+$VERSION = '0.16';
 
 
 ###############################################################################
@@ -58,6 +58,9 @@ sub new {
     my $self = Pod::Simple::Wiki->new( 'wiki', @_ );
     $self->{_tags} = $tags;
 
+    # The =for and =begin targets that we accept.
+    $self->accept_targets (qw/html text comment/);
+
     bless $self, $class;
     return $self;
 }
@@ -80,13 +83,12 @@ sub _indent_item {
         $self->_append( '   ' x $indent_level . '* ' );
     }
     elsif ( $item_type eq 'number' ) {
-        $self->_append( '   ' x $indent_level . $item_param . '. ' );
+        $self->_append( '   ' x $indent_level . '1. ' );
     }
     elsif ( $item_type eq 'text' ) {
-        $self->_append( '   ' x $indent_level . '$ ' );
+        $self->_append( "\n" . '   ' x $indent_level . '$ ' );
     }
 }
-
 
 ###############################################################################
 #
@@ -136,7 +138,76 @@ sub _start_Para {
     if ( $self->{_in_over_block} ) {
 
         # Do something here is necessary
+        $self->_append( ' ' );
     }
+}
+
+
+###############################################################################
+#
+# _start_L()
+#
+# Handle the start of a link element.
+#
+sub _start_L {
+
+    my $self       = shift;
+    my $link_attrs = shift;
+
+    my $link_target  = $link_attrs->{to};
+    my $link_section = $link_attrs->{section};
+
+    # Ouput start of TWiki link and flush the _wiki_text buffer.
+    $self->_output( '[[' );
+
+    # Only write link target, if it's  neither pod nor man
+    if ( $link_attrs->{type} ne "pod" && $link_attrs->{type} ne "man" ) {
+        $self->_append( "$link_target][" );
+    }
+   
+    if ( defined $link_section ) {
+        # Handle links that are parsed as Pod links.
+        
+	if ( ! $link_target ) {
+            # Link target if the link is to a section in the same Document
+	    $self->{_wiki_text} = $link_section;
+            
+            # Remove quotes around link name.
+            $self->{_wiki_text} =~ s/^"//;
+            $self->{_wiki_text} =~ s/"$//;
+            # Replace spaces by underscores
+            $self->{_wiki_text} =~ s/ /_/g;
+            # Remove !
+            $self->{_wiki_text} =~ s/!//g;
+            # Add anchor
+            $self->{_wiki_text} =~ s/^/#/;
+            $self->{_wiki_text}  =~ s/(.*)"[^"]*"$/\1/;
+            # Adding a Comment is a Hack to get rid of the _wiki_text on anchor Links in _end_L
+            # Where to fix that?
+            $self->_append( "]]<!--" );
+            $link_attrs->{section}='';
+        }
+    } 
+}
+
+###############################################################################
+#
+# _end_L()
+#
+# Handle the end of a link element.
+
+sub _end_L {
+
+    my $self         = shift;
+    my $link_attrs   = $self->{_link_attrs};
+    my $link_target  = $link_attrs->{to};
+    my $link_section = $link_attrs->{section};
+
+    $self->_append( "]]" );
+
+    # Hack
+    $self->{_wiki_text} =~ s/<!--.*//;
+
 }
 
 

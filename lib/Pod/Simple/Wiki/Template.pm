@@ -15,7 +15,7 @@ package Pod::Simple::Wiki::Template;
 #
 #
 # Copyright 2003-2012, John McNamara, jmcnamara@cpan.org
-#
+# Copyright 2014, Jens Wilke, jewilke@cpan.org  
 # Documentation after __END__
 #
 
@@ -27,7 +27,7 @@ use vars qw(@ISA $VERSION);
 
 
 @ISA     = qw(Pod::Simple::Wiki);
-$VERSION = '0.15';
+$VERSION = '0.16';
 
 # Portme. Start with these tags.
 
@@ -68,6 +68,9 @@ sub new {
     my $class = shift;
     my $self = Pod::Simple::Wiki->new( 'wiki', @_ );
     $self->{_tags} = $tags;
+
+    # The =for and =begin targets that we accept.
+    # $self->accept_targets (qw/html text comment/);
 
     bless $self, $class;
     return $self;

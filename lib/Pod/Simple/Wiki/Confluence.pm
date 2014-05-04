@@ -18,7 +18,7 @@ use vars qw(@ISA $VERSION);
 
 
 @ISA     = qw(Pod::Simple::Wiki);
-$VERSION = '0.15';
+$VERSION = '0.16';
 
 ###############################################################################
 #
@@ -99,16 +99,13 @@ sub _handle_text {
     my $self = shift;
     my $text = $_[0];
 
-    # Only escape words in paragraphs
-    if ( not $self->{_in_Para} ) {
-        $self->{_wiki_text} .= $text;
-        return;
-    }
+    $text =~ s/\*/\\*/g;
 
     # Split the text into tokens but maintain the whitespace
     my @tokens = split /(\s+)/, $text;
 
     # Escape any tokens here, if necessary.
+    @tokens = map { s/([\[\{-])/\\$1/g; $_ } @tokens; 
 
     # Rejoin the tokens and whitespace.
     $self->{_wiki_text} .= join '', @tokens;
