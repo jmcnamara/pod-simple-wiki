@@ -213,7 +213,7 @@ This module is used as a boiler plate or example of how to create a new C<Pod::S
 
 If you are thinking of creating a new C<Pod::Simple::Wiki::> you should use this module as a basis.
 
-B<Portme>. Any comments in the code or documentation that begin with or contain the word C<portme> are intended for the C<porter>, the person who is creating the new module. You should read all of the C<portme> comments and eventully delete them when the module is finished.
+B<Portme>. Any comments in the code or documentation that begin with or contain the word C<portme> are intended for the C<porter>, the person who is creating the new module. You should read all of the C<portme> comments and eventually delete them when the module is finished.
 
 The following are some suggested steps in porting the module. For the sake of example say we wish to convert Pod to a format called C<portmewiki>. Also for the sake of this example we will assume that you know how to install and work on a module or work on it in a local source tree using C<-I./lib> or C<-Mblib>.
 
