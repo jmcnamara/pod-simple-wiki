@@ -25,18 +25,22 @@ my @tests = (
 
     # Links
     [
-       qq(=pod\n\nL<http://www.perl.org>.) => qq{[http://www.perl.org](http://www.perl.org).\n\n},
-       'http'
-    ], [
-       qq(=pod\n\nL</"METHODS">) => qq{["METHODS"](#METHODS)\n\n},
-       'Internal link'
-    ], [
-       qq(=pod\n\nL<Other::Module>) => qq{[Other::Module](Other::Module)\n\n},
-       'Other::Module'
-    ], [
-       qq(=pod\n\nL<Other::Module/"METHODS">) =>
-         qq{["METHODS" in Other::Module](Other::Module#METHODS)\n\n},
-       'Other::Module/METHODS'
+        qq(=pod\n\nL<http://www.perl.org>.) =>
+          qq{[http://www.perl.org](http://www.perl.org).\n\n},
+        'http'
+    ],
+    [
+        qq(=pod\n\nL</"METHODS">) => qq{["METHODS"](#METHODS)\n\n},
+        'Internal link'
+    ],
+    [
+        qq(=pod\n\nL<Other::Module>) => qq{[Other::Module](Other::Module)\n\n},
+        'Other::Module'
+    ],
+    [
+        qq(=pod\n\nL<Other::Module/"METHODS">) =>
+          qq{["METHODS" in Other::Module](Other::Module#METHODS)\n\n},
+        'Other::Module/METHODS'
     ],
 
 );

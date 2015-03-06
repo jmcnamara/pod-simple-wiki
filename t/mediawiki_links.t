@@ -21,36 +21,46 @@ my $style = 'mediawiki';
 # Output the tests for visual testing in the wiki.
 # END{output_tests()};
 
-my @tests  = (
+my @tests = (
 
-  # Links
-  [ "=pod\n\nL<http://www.perl.org>." => qq(http://www.perl.org.\n\n), 'http'],
-  [ qq(=pod\n\nL</"METHODS">) => qq([[#METHODS|"METHODS"]]\n\n), 'Internal link'],
-  [ qq(=pod\n\nL<Other::Module>) => qq([[Other::Module]]\n\n),   'Other::Module'],
-  [ qq(=pod\n\nL<Other::Module/"METHODS">)
-    => qq([[Other::Module#METHODS|"METHODS" in Other::Module]]\n\n),
-    'Other::Module/METHODS'],
+    # Links
+    [
+        "=pod\n\nL<http://www.perl.org>." => qq(http://www.perl.org.\n\n),
+        'http'
+    ],
+    [
+        qq(=pod\n\nL</"METHODS">) => qq([[#METHODS|"METHODS"]]\n\n),
+        'Internal link'
+    ],
+    [
+        qq(=pod\n\nL<Other::Module>) => qq([[Other::Module]]\n\n),
+        'Other::Module'
+    ],
+    [
+        qq(=pod\n\nL<Other::Module/"METHODS">) =>
+          qq([[Other::Module#METHODS|"METHODS" in Other::Module]]\n\n),
+        'Other::Module/METHODS'
+    ],
 
 );
-
 
 
 ###############################################################################
 #
 #  Run the tests.
 #
-for my $test_ref (@tests) {
+for my $test_ref ( @tests ) {
 
-    my $parser  = Pod::Simple::Wiki->new($style);
-    my $pod     = $test_ref->[0];
-    my $target  = $test_ref->[1];
-    my $name    = $test_ref->[2];
+    my $parser = Pod::Simple::Wiki->new( $style );
+    my $pod    = $test_ref->[0];
+    my $target = $test_ref->[1];
+    my $name   = $test_ref->[2];
     my $wiki;
 
-    $parser->output_string(\$wiki);
-    $parser->parse_string_document($pod);
+    $parser->output_string( \$wiki );
+    $parser->parse_string_document( $pod );
 
-    is($wiki, $target, "\tTesting: $name");
+    is( $wiki, $target, "\tTesting: $name" );
 }
 
 
@@ -64,16 +74,16 @@ sub output_tests {
 
     print "\n----\n\n";
 
-    for my $test_ref (@tests) {
+    for my $test_ref ( @tests ) {
 
-        my $parser  =  Pod::Simple::Wiki->new($style);
-        my $pod     =  $test_ref->[0];
-        my $name    =  $test_ref->[2];
+        my $parser = Pod::Simple::Wiki->new( $style );
+        my $pod    = $test_ref->[0];
+        my $name   = $test_ref->[2];
 
-        $pod        =~ s/=pod\n\n//;
-        $pod        = "=pod\n\n=head1 Test ". $test++ . " $name\n\n$pod";
+        $pod =~ s/=pod\n\n//;
+        $pod = "=pod\n\n=head1 Test " . $test++ . " $name\n\n$pod";
 
-        $parser->parse_string_document($pod);
+        $parser->parse_string_document( $pod );
     }
 }
 
