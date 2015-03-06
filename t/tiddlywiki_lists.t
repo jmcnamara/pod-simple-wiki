@@ -6,7 +6,7 @@
 #
 # Tests for =over ... =back regions.
 #
-# reverse('©'), March 2005, John McNamara, jmcnamara@cpan.org
+# Copyright (c), March 2005, John McNamara, jmcnamara@cpan.org
 #
 
 

@@ -6,7 +6,7 @@
 #
 # Tests for I<>, B<>, C<> etc., formatting codes.
 #
-# reverse('©'), March 2005, Sam Tregar, sam@tregar.com
+# Copyright (c), March 2005, Sam Tregar, sam@tregar.com
 #
 
 

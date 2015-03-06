@@ -6,7 +6,7 @@
 #
 # Tests for L<>  links.
 #
-# reverse('©'), December 2005, John McNamara, jmcnamara@cpan.org,
+# Copyright (c), December 2005, John McNamara, jmcnamara@cpan.org,
 #                              Christopher J. Madsen, and Daniel T. Staal
 #
 

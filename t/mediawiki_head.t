@@ -6,7 +6,7 @@
 #
 # Tests for =head pod directives.
 #
-# reverse('©'), August 2004, John McNamara, jmcnamara@cpan.org
+# Copyright (c), August 2004, John McNamara, jmcnamara@cpan.org
 #
 
 

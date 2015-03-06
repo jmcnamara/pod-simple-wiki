@@ -6,7 +6,7 @@
 #
 # Tests for L<> link formatting codes.
 #
-# reverse('©'), January 2011, John McNamara, jmcnamara@cpan.org
+# Copyright (c), January 2011, John McNamara, jmcnamara@cpan.org
 #
 
 
