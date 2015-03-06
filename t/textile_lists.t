@@ -28,20 +28,20 @@ my @tests;
 my $test_no = 1;
 my $pod;
 my $test = '';
-my $todo = '';;
+my $todo = '';
 my $name;
 
-while (<DATA>) {
-    if (/^#/) {
+while ( <DATA> ) {
+    if ( /^#/ ) {
         $name = $1 if /NAME: (.*)/;
         $todo = $1 if /TODO: (.*)/;
 
-        if ($test) {
-            if ($test_no % 2) {
+        if ( $test ) {
+            if ( $test_no % 2 ) {
                 $pod = $test;
             }
             else {
-                push @tests, [$pod, $test, $name, $todo];
+                push @tests, [ $pod, $test, $name, $todo ];
                 $name = '';
                 $todo = '';
             }
@@ -51,9 +51,9 @@ while (<DATA>) {
         }
         next;
     }
-    s/\r//;     # Remove any \r chars that slip in.
-    s/\\t/\t/g; # Sub back in any escaped tabs.
-    s/\\#/#/g;  # Sub back in any escaped comments.
+    s/\r//;        # Remove any \r chars that slip in.
+    s/\\t/\t/g;    # Sub back in any escaped tabs.
+    s/\\#/#/g;     # Sub back in any escaped comments.
     $test .= $_;
 }
 
@@ -62,20 +62,20 @@ while (<DATA>) {
 #
 #  Run the tests.
 #
-for my $test_ref (@tests) {
+for my $test_ref ( @tests ) {
 
-    my $parser  = Pod::Simple::Wiki->new($style);
-    my $pod     = $test_ref->[0];
-    my $target  = $test_ref->[1];
-    my $name    = $test_ref->[2];
-    my $todo    = $test_ref->[3];
+    my $parser = Pod::Simple::Wiki->new( $style );
+    my $pod    = $test_ref->[0];
+    my $target = $test_ref->[1];
+    my $name   = $test_ref->[2];
+    my $todo   = $test_ref->[3];
     my $wiki;
 
-    $parser->output_string(\$wiki);
-    $parser->parse_string_document($pod);
+    $parser->output_string( \$wiki );
+    $parser->parse_string_document( $pod );
 
     local $TODO = $todo;
-    is($wiki, $target, " \t" . $name);
+    is( $wiki, $target, " \t" . $name );
 }
 
 
@@ -89,17 +89,17 @@ sub output_tests {
 
     print "\n\n";
 
-    for my $test_ref (@tests) {
+    for my $test_ref ( @tests ) {
 
-        my $parser  =  Pod::Simple::Wiki->new($style);
-        my $pod     =  $test_ref->[0];
-        my $name    =  $test_ref->[2];
+        my $parser = Pod::Simple::Wiki->new( $style );
+        my $pod    = $test_ref->[0];
+        my $name   = $test_ref->[2];
 
         $name =~ s/</&lt;/g;
         $name =~ s/>/&gt;/g;
 
         print "h2. Test ", $test++, ":\t", $name, "\n\n";
-        $parser->parse_string_document($pod);
+        $parser->parse_string_document( $pod );
     }
 }
 

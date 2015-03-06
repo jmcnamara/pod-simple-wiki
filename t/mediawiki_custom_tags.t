@@ -18,39 +18,43 @@ use Test::More tests => 1;
 my $style = 'mediawiki';
 my $opts  = {
     custom_tags => {
-        '<pre>'     => "<syntaxhighlight lang=\"perl\">\n",
-        '</pre>'    => "\n</syntaxhighlight>\n\n",
+        '<pre>'  => "<syntaxhighlight lang=\"perl\">\n",
+        '</pre>' => "\n</syntaxhighlight>\n\n",
     }
 };
 
 # Output the tests for visual testing in the wiki.
 # END{output_tests()};
 
-my @tests  = (
-  # Simple formatting tests
-  [ "=pod\n\n Foo"      => qq(<syntaxhighlight lang=\"perl\">\n Foo\n</syntaxhighlight>\n\n),  'Syntaxhighlight code'  ],
+my @tests = (
+
+    # Simple formatting tests
+    [
+        "=pod\n\n Foo" =>
+          qq(<syntaxhighlight lang=\"perl\">\n Foo\n</syntaxhighlight>\n\n),
+        'Syntaxhighlight code'
+    ],
 
 
 );
-
 
 
 ###############################################################################
 #
 #  Run the tests.
 #
-for my $test_ref (@tests) {
+for my $test_ref ( @tests ) {
 
-    my $parser  = Pod::Simple::Wiki->new($style, $opts);
-    my $pod     = $test_ref->[0];
-    my $target  = $test_ref->[1];
-    my $name    = $test_ref->[2];
+    my $parser = Pod::Simple::Wiki->new( $style, $opts );
+    my $pod    = $test_ref->[0];
+    my $target = $test_ref->[1];
+    my $name   = $test_ref->[2];
     my $wiki;
 
-    $parser->output_string(\$wiki);
-    $parser->parse_string_document($pod);
+    $parser->output_string( \$wiki );
+    $parser->parse_string_document( $pod );
 
-    is($wiki, $target, "\tTesting: $name");
+    is( $wiki, $target, "\tTesting: $name" );
 }
 
 
@@ -64,16 +68,16 @@ sub output_tests {
 
     print "\n\n";
 
-    for my $test_ref (@tests) {
+    for my $test_ref ( @tests ) {
 
-        my $parser  =  Pod::Simple::Wiki->new($style, $opts);
-        my $pod     =  $test_ref->[0];
-        my $name    =  $test_ref->[2];
+        my $parser = Pod::Simple::Wiki->new( $style, $opts );
+        my $pod    = $test_ref->[0];
+        my $name   = $test_ref->[2];
 
-        $pod        =~ s/=pod\n\n//;
-        $pod        = "=pod\n\n=head2 Test ". $test++ . " $name\n\n$pod";
+        $pod =~ s/=pod\n\n//;
+        $pod = "=pod\n\n=head2 Test " . $test++ . " $name\n\n$pod";
 
-        $parser->parse_string_document($pod);
+        $parser->parse_string_document( $pod );
     }
 }
 
