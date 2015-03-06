@@ -6,7 +6,7 @@
 #
 # Tests for the CPANification of L<> links.
 #
-# reverse('©'), October 2012, Peter Hallam, pragmatic@cpan.org
+# Copyright (c), October 2012, Peter Hallam, pragmatic@cpan.org
 #
 
 

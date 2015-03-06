@@ -6,7 +6,7 @@
 #
 # Tests for =head pod directives.
 #
-# reverse('©'), March 2005, Sam Tregar, sam@tregar.com
+# Copyright (c), March 2005, Sam Tregar, sam@tregar.com
 #
 
 

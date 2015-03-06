@@ -6,7 +6,7 @@
 #
 # Tests for the removal of a NAME section.
 #
-# reverse('©'), October 2012, Peter Hallam, pragmatic@cpan.org
+# Copyright (c), October 2012, Peter Hallam, pragmatic@cpan.org
 #
 
 

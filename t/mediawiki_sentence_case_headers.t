@@ -6,7 +6,7 @@
 #
 # Tests for =head1 pod sentence-cased directives.
 #
-# reverse('©'), October 2012, Peter Hallam, pragmatic@cpan.org
+# Copyright (c), October 2012, Peter Hallam, pragmatic@cpan.org
 #
 
 
