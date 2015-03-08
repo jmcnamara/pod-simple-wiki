@@ -1,6 +1,13 @@
 Revision history for Pod::Simple::Wiki.
 
 
+0.18 March 8 2015
+
+     + Fixed escaping of special symbols in text and headers for the
+       Confluence wiki format. Thanks to Lubo Rintel and Zoffix Znet.
+       RT#38833 / Issue #4.
+
+
 0.17 March 8 2015
 
      + Fix for Markdown CPAN text.

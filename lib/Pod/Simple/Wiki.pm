@@ -19,7 +19,7 @@ use Pod::Simple;
 use vars qw(@ISA $VERSION);
 
 @ISA     = qw(Pod::Simple);
-$VERSION = '0.17';
+$VERSION = '0.18';
 
 
 ###############################################################################
@@ -422,10 +422,6 @@ __END__
 
 Pod::Simple::Wiki - A class for creating Pod to Wiki filters.
 
-=head1 VERSION
-
-This document refers to version 0.17 of Pod::Simple::Wiki.
-
 
 =head1 SYNOPSIS
 
@@ -582,6 +578,8 @@ Fix some of the C<=over> edge cases. See the TODOs in the test programs.
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to Sean M. Burke for C<Pod::Simple>. It may not be simple but sub-classing it is. C<:-)>
+
+Thanks to Zoffix Znet for various pull requests and fixes.
 
 Thanks to Sam Tregar for TWiki support.
 
