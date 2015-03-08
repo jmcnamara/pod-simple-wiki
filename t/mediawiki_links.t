@@ -14,7 +14,7 @@
 use strict;
 
 use Pod::Simple::Wiki;
-use Test::More tests => 4;
+use Test::More tests => 6;
 
 my $style = 'mediawiki';
 
@@ -27,6 +27,16 @@ my @tests = (
     [
         "=pod\n\nL<http://www.perl.org>." => qq(http://www.perl.org.\n\n),
         'http'
+    ],
+    [
+        "=pod\n\nL<Google|http://www.google.com>." =>
+          qq([http://www.google.com Google].\n\n),
+        'http with text'
+    ],
+    [
+        "=pod\n\nL<Google(s)|https://www.google.com>." =>
+          qq([https://www.google.com Google(s)].\n\n),
+        'https with text'
     ],
     [
         qq(=pod\n\nL</"METHODS">) => qq([[#METHODS|"METHODS"]]\n\n),
