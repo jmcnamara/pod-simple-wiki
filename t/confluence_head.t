@@ -13,7 +13,7 @@
 use strict;
 
 use Pod::Simple::Wiki;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 my $style = 'confluence';
 
@@ -25,6 +25,10 @@ my @tests = (
     [ "=pod\n\n=head2 Head 2" => qq(h2. Head 2\n\n) ],
     [ "=pod\n\n=head3 Head 3" => qq(h3. Head 3\n\n) ],
     [ "=pod\n\n=head4 Head 4" => qq(h4. Head 4\n\n) ],
+    [
+        "=pod\n\n=head1 [head] {head} -head- _head_ *head*" =>
+          qq(h1. \\[head] \\{head} \\-head\\- \\_head\\_ \\*head\\*\n\n)
+    ],
 );
 
 
