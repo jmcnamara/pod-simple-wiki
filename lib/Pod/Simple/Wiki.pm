@@ -19,7 +19,7 @@ use Pod::Simple;
 use vars qw(@ISA $VERSION);
 
 @ISA     = qw(Pod::Simple);
-$VERSION = '0.16';
+$VERSION = '0.17';
 
 
 ###############################################################################
@@ -424,7 +424,7 @@ Pod::Simple::Wiki - A class for creating Pod to Wiki filters.
 
 =head1 VERSION
 
-This document refers to version 0.15 of Pod::Simple::Wiki, released October 14 2012.
+This document refers to version 0.17 of Pod::Simple::Wiki.
 
 
 =head1 SYNOPSIS
@@ -620,6 +620,6 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-MMIII-MMVII, John McNamara.
+MMIII-MMV, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.

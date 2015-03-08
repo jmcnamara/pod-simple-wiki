@@ -19,7 +19,7 @@ use vars qw(@ISA $VERSION);
 
 
 @ISA     = qw(Pod::Simple::Wiki);
-$VERSION = '0.16';
+$VERSION = '0.17';
 
 ###############################################################################
 #
@@ -202,7 +202,7 @@ __END__
 
 =head1 NAME
 
-Pod::Simple::Wiki::Template - A class for creating Pod to Markdown wiki filters.
+Pod::Simple::Wiki::Markdown - A class for creating Pod to Markdown wiki filters.
 
 =head1 SYNOPSIS
 
@@ -265,6 +265,6 @@ Daniel T. Staal DStaal@usa.net
 
 =head1 COPYRIGHT
 
-MMIII-MMXIV, John McNamara, Daniel T. Staal
+MMIII-MMXV, John McNamara, Daniel T. Staal
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.

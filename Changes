@@ -1,5 +1,11 @@
 Revision history for Pod::Simple::Wiki.
 
+
+0.17 March 8 2015
+
+     + Fix for Markdown CPAN text.
+
+
 0.16 May 4 2014
 
      + Added support for Markdown.
