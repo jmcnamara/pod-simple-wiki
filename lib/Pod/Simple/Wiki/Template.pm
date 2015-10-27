@@ -27,7 +27,7 @@ use vars qw(@ISA $VERSION);
 
 
 @ISA     = qw(Pod::Simple::Wiki);
-$VERSION = '0.18';
+$VERSION = '0.19';
 
 # Portme. Start with these tags.
 

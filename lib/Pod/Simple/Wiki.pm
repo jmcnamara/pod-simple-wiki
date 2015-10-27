@@ -5,7 +5,7 @@ package Pod::Simple::Wiki;
 # Pod::Simple::Wiki - A class for creating Pod to Wiki filters.
 #
 #
-# Copyright 2003-2012, John McNamara, jmcnamara@cpan.org
+# Copyright 2003-2015, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -19,7 +19,7 @@ use Pod::Simple;
 use vars qw(@ISA $VERSION);
 
 @ISA     = qw(Pod::Simple);
-$VERSION = '0.18';
+$VERSION = '0.19';
 
 
 ###############################################################################
@@ -63,7 +63,7 @@ sub new {
     my $module = "Pod::Simple::Wiki::" . ucfirst $format;
 
     # Try to load a sub-module unless the format type is 'wiki' in which
-    # case we use this, the parent, module. It's a design pattern, bitches!
+    # case we use this, the parent, module.
     if ( $format ne 'wiki' ) {
         eval "require $module";
         die "Module $module not implemented for wiki format $format\n" if $@;
@@ -541,6 +541,9 @@ This is the format used by GitHub and other sites. See: L<http://daringfireball.
 
 This is the format used by MoinMoin wikis. See: L<http://moinmo.in/MoinMoinWiki>.
 
+=item muse
+
+Emacs Muse (also known as "Muse" or "Emacs-Muse") is an authoring and publishing environment for Emacs.
 
 =item confluence
 
@@ -599,6 +602,9 @@ Thanks to David Bartle, Andrew Hobbs and Jim Renwick for confluence patches.
 
 Thanks to Peter Hallam for MediaWiki enhancements.
 
+Thanks to Marco Pessotto for the Muse format.
+
+
 =head1 DISCLAIMER OF WARRANTY
 
 Because this software is licensed free of charge, there is no warranty for the software, to the extent permitted by applicable law. Except when otherwise stated in writing the copyright holders and/or other parties provide the software "as is" without warranty of any kind, either expressed or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. The entire risk as to the quality and performance of the software is with you. Should the software prove defective, you assume the cost of all necessary servicing, repair, or correction.
@@ -618,6 +624,6 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-MMIII-MMV, John McNamara.
+MMIII-MMIV, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.
