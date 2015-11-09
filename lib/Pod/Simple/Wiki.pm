@@ -19,7 +19,7 @@ use Pod::Simple;
 use vars qw(@ISA $VERSION);
 
 @ISA     = qw(Pod::Simple);
-$VERSION = '0.19';
+$VERSION = '0.20';
 
 
 ###############################################################################

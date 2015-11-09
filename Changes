@@ -1,5 +1,10 @@
 Revision history for Pod::Simple::Wiki.
 
+0.20 November 9 2015
+
+    ! Fix pod error in pod2wiki.
+      Thanks Gregor Herrmann.
+      Issue #19.
 
 0.19 October 27 2015
 
