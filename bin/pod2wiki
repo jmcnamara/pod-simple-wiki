@@ -107,6 +107,7 @@ The converted output file in wiki format. Defaults to stdout if not specified.
 Sets the wiki style of the output. If no C<style> is specified the program defaults to C<wiki>. The available options are:
 
 =over 4
+
 =item wiki
 
 This is the original Wiki format as used on Ward Cunningham's Portland repository of Patterns. See L<http://c2.com/cgi/wiki>.
