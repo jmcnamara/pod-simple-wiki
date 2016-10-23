@@ -103,7 +103,9 @@ sub _handle_text {
     my @tokens = split /(\s+)/, $text;
 
     # Escape any tokens here, if necessary.
-    @tokens = map { s/([[{*_-])/\\$1/g; $_ } @tokens;
+    unless( $self->{_in_Verbatim} ) {
+        @tokens = map { s/([[{*_-])/\\$1/g; $_ } @tokens;
+    }
 
     # Rejoin the tokens and whitespace.
     $self->{_wiki_text} .= join '', @tokens;
