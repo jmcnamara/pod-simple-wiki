@@ -152,6 +152,10 @@ Emacs Muse (also known as "Muse" or "Emacs-Muse") is an authoring and publishing
 
 This is the format used by Confluence. See: L<http://www.atlassian.com/software/confluence/>.
 
+=item dokuwiki
+
+This is the format used by Dokuwiki. See: L<https://www.dokuwiki.org>.
+
 =back
 
 
