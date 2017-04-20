@@ -13,7 +13,7 @@
 use strict;
 
 use Pod::Simple::Wiki;
-use Test::More tests => 4;
+use Test::More tests => 8;
 
 my $style = 'confluence';
 
@@ -30,6 +30,24 @@ my @tests = (
     ],
     [ "=pod\n\nL<Document>" => qq([Document]\n\n), 'Simple doc link' ],
     [ "=pod\n\nL<Doc Link>" => qq([Doc Link]\n\n), 'Simple doc link' ],
+
+    # Page anchor links
+    [
+        "=pod\n\nL<\"PageAnchor\">" => qq([PageAnchor|#PageAnchor]\n\n),
+        'Page anchor link'
+    ],
+    [
+        "=pod\n\nL</\"PageAnchor\">" => qq([PageAnchor|#PageAnchor]\n\n),
+        'Alternate page anchor link'
+    ],
+    [
+        "=pod\n\nL<Link Text|\"PageAnchor\">" => qq([Link Text|#PageAnchor]\n\n),
+        'Page anchor link with text'
+    ],
+    [
+        "=pod\n\nL<Link Text|/\"PageAnchor\">" => qq([Link Text|#PageAnchor]\n\n),
+        'Alternate page anchor link with text'
+    ],
 );
 
 

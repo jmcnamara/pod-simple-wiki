@@ -103,7 +103,9 @@ sub _handle_text {
     my @tokens = split /(\s+)/, $text;
 
     # Escape any tokens here, if necessary.
-    @tokens = map { s/([[{*_-])/\\$1/g; $_ } @tokens;
+    unless( $self->{_in_Verbatim} ) {
+        @tokens = map { s/([[{*_-])/\\$1/g; $_ } @tokens;
+    }
 
     # Rejoin the tokens and whitespace.
     $self->{_wiki_text} .= join '', @tokens;
@@ -172,7 +174,10 @@ sub _end_L {
 
     # Handle links that are parsed as Pod links.
     if ( defined $link_section ) {
-        $link_target = $link_section;
+        # Other than for L<Link Text>, having a link section defined means
+        # that this is a page anchor link.
+        $link_target = ( $link_attrs->{raw} eq "$link_section" ) ? '' : '#';
+        $link_target .= $link_section;
 
         # Remove quotes around link name.
         $self->{_wiki_text} =~ s/^"//;

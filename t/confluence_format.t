@@ -13,7 +13,7 @@
 use strict;
 
 use Pod::Simple::Wiki;
-use Test::More tests => 6;
+use Test::More tests => 7;
 
 my $style = 'confluence';
 
@@ -31,6 +31,12 @@ my @tests = (
     # Nested formatting tests
     [ "=pod\n\nB<I<Foo>>" => qq(*_Foo_*\n\n), 'Bold Italic' ],
     [ "=pod\n\nI<B<Foo>>" => qq(_*Foo*_\n\n), 'Italic Bold' ],
+
+    # Unformatted test
+    [
+        "=pod\n\n  foo-bar\n  B<foo>\n  I<bar>" => qq({noformat}\n  foo-bar\n  B<foo>\n  I<bar>\n{noformat}\n),
+        'Unformatted block'
+    ]
 );
 
 
